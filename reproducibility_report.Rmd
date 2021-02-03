@@ -1,0 +1,205 @@
+---
+title: "ADH and ALDH gene regulation"
+author: "Evgeniia Golovina"
+date: "03/02/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# install.packages("pacman")
+# load libraries
+pacman::p_load(ggplot2, ComplexHeatmap, dplyr, tidyr, reshape2, tidyverse, circlize)
+
+setwd("/Users/foffa/Desktop/ADH_and_ALDH_regulatory_networks")
+```
+
+## Reporducibility report for "*ADH* and *ALDH* gene regulation" study.
+
+This R Markdown document generates the reproducibility report for "*ADH* and *ALDH* gene regulation" study. 
+
+### 1. CoDeS3D analysis
+
+First, we run CoDeS3D pipeline (gene mode, GTEx eqtl project) to get regulatory interactions for each of *ADH* and *ALDH* gene across all GTEx (v8) tissues: `python codes3d/codes3d.py -g ALDH1A1 -o results/codes3d/ALDH1A1 --eqtl-project GTEx`. 
+
+```{r loading_codes3d_results}
+# 6 ADH genes; there were no significant interactions for ADH7 gene
+ADH1A <- read.table("results/codes3d/ADH1A/significant_eqtls.txt", header = TRUE, sep = "\t")
+ADH1B <- read.table("results/codes3d/ADH1B/significant_eqtls.txt", header = TRUE, sep = "\t")
+ADH1C <- read.table("results/codes3d/ADH1C/significant_eqtls.txt", header = TRUE, sep = "\t")
+ADH4 <- read.table("results/codes3d/ADH4/significant_eqtls.txt", header = TRUE, sep = "\t")
+ADH5 <- read.table("results/codes3d/ADH5/significant_eqtls.txt", header = TRUE, sep = "\t")
+ADH6 <- read.table("results/codes3d/ADH6/significant_eqtls.txt", header = TRUE, sep = "\t")
+# 17 ALDH genes; there were no ignificant interactions for ALDH8A1 and ALDH9A1 genes
+ALDH16A1 <- read.table("results/codes3d/ALDH16A1/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH18A1 <- read.table("results/codes3d/ALDH18A1/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH1A1 <- read.table("results/codes3d/ALDH1A1/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH1A2 <- read.table("results/codes3d/ALDH1A2/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH1A3 <- read.table("results/codes3d/ALDH1A3/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH1B1 <- read.table("results/codes3d/ALDH1B1/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH1L1 <- read.table("results/codes3d/ALDH1L1/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH1L2 <- read.table("results/codes3d/ALDH1L2/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH2 <- read.table("results/codes3d/ALDH2/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH3A1 <- read.table("results/codes3d/ALDH3A1/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH3A2 <- read.table("results/codes3d/ALDH3A2/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH3B1 <- read.table("results/codes3d/ALDH3B1/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH3B2 <- read.table("results/codes3d/ALDH3B2/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH4A1 <- read.table("results/codes3d/ALDH4A1/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH5A1 <- read.table("results/codes3d/ALDH5A1/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH6A1 <- read.table("results/codes3d/ALDH6A1/significant_eqtls.txt", header = TRUE, sep = "\t")
+ALDH7A1 <- read.table("results/codes3d/ALDH7A1/significant_eqtls.txt", header = TRUE, sep = "\t")
+
+# remove interactions with missing rsID number for snp
+# 6 ADH genes
+ADH1A <- ADH1A[ADH1A$snp != ".", ]; ADH1B <- ADH1B[ADH1B$snp != ".", ]
+ADH1C <- ADH1C[ADH1C$snp != ".", ]; ADH4 <- ADH4[ADH4$snp != ".", ]
+ADH5 <- ADH5[ADH5$snp != ".", ]; ADH6 <- ADH6[ADH6$snp != ".", ]
+# 17 ALDH genes
+ALDH16A1 <- ALDH16A1[ALDH16A1$snp != ".", ]; ALDH18A1 <- ALDH18A1[ALDH18A1$snp != ".", ]
+ALDH1A1 <- ALDH1A1[ALDH1A1$snp != ".", ]; ALDH1A2 <- ALDH1A2[ALDH1A2$snp != ".", ]
+ALDH1A3 <- ALDH1A3[ALDH1A3$snp != ".", ]; ALDH1B1 <- ALDH1B1[ALDH1B1$snp != ".", ]
+ALDH1L1 <- ALDH1L1[ALDH1L1$snp != ".", ]; ALDH1L2 <- ALDH1L2[ALDH1L2$snp != ".", ]
+ALDH2 <- ALDH2[ALDH2$snp != ".", ]; ALDH3A1 <- ALDH3A1[ALDH3A1$snp != ".", ]
+ALDH3A2 <- ALDH3A2[ALDH3A2$snp != ".", ]; ALDH3B1 <- ALDH3B1[ALDH3B1$snp != ".", ]
+ALDH3B2 <- ALDH3B2[ALDH3B2$snp != ".", ]; ALDH4A1 <- ALDH4A1[ALDH4A1$snp != ".", ]
+ALDH5A1 <- ALDH5A1[ALDH5A1$snp != ".", ]; ALDH6A1 <- ALDH6A1[ALDH6A1$snp != ".", ]
+ALDH7A1 <- ALDH7A1[ALDH7A1$snp != ".", ]
+```
+
+Extracting eQTL SNPs impacting *ADH* and *ALDH* gene expression.
+
+```{r eqtl_snps}
+# 6 ADH genes
+ADH1A_esnps <- unique(ADH1A$snp); ADH1B_esnps <- unique(ADH1B$snp)
+ADH1C_esnps <- unique(ADH1C$snp); ADH4_esnps <- unique(ADH4$snp)
+ADH5_esnps <- unique(ADH5$snp); ADH6_esnps <- unique(ADH6$snp)
+# 17 ALDH genes
+ALDH16A1_esnps <- unique(ALDH16A1$snp); ALDH18A1_esnps <- unique(ALDH18A1$snp)
+ALDH1A1_esnps <- unique(ALDH1A1$snp); ALDH1A2_esnps <- unique(ALDH1A2$snp)
+ALDH1A3_esnps <- unique(ALDH1A3$snp); ALDH1B1_esnps <- unique(ALDH1B1$snp)
+ALDH1L1_esnps <- unique(ALDH1L1$snp); ALDH1L2_esnps <- unique(ALDH1L2$snp)
+ALDH2_esnps <- unique(ALDH2$snp); ALDH3A1_esnps <- unique(ALDH3A1$snp)
+ALDH3A2_esnps <- unique(ALDH3A2$snp); ALDH3B1_esnps <- unique(ALDH3B1$snp)
+ALDH3B2_esnps <- unique(ALDH3B2$snp); ALDH4A1_esnps <- unique(ALDH4A1$snp)
+ALDH5A1_esnps <- unique(ALDH5A1$snp); ALDH6A1_esnps <- unique(ALDH6A1$snp)
+ALDH7A1_esnps <- unique(ALDH7A1$snp)
+```
+
+Extracting affected tissues.
+
+```{r affected_tissues}
+# 6 ADH genes
+ADH1A_tissues <- unique(ADH1A$tissue); ADH1B_tissues <- unique(ADH1B$tissue)
+ADH1C_tissues <- unique(ADH1C$tissue); ADH4_tissues <- unique(ADH4$tissue)
+ADH5_tissues <- unique(ADH5$tissue); ADH6_tissues <- unique(ADH6$tissue)
+# 17 ALDH genes
+ALDH16A1_tissues <- unique(ALDH16A1$tissue); ALDH18A1_tissues <- unique(ALDH18A1$tissue)
+ALDH1A1_tissues <- unique(ALDH1A1$tissue); ALDH1A2_tissues <- unique(ALDH1A2$tissue)
+ALDH1A3_tissues <- unique(ALDH1A3$tissue); ALDH1B1_tissues <- unique(ALDH1B1$tissue)
+ALDH1L1_tissues <- unique(ALDH1L1$tissue); ALDH1L2_tissues <- unique(ALDH1L2$tissue)
+ALDH2_tissues <- unique(ALDH2$tissue); ALDH3A1_tissues <- unique(ALDH3A1$tissue)
+ALDH3A2_tissues <- unique(ALDH3A2$tissue); ALDH3B1_tissues <- unique(ALDH3B1$tissue)
+ALDH3B2_tissues <- unique(ALDH3B2$tissue); ALDH4A1_tissues <- unique(ALDH4A1$tissue)
+ALDH5A1_tissues <- unique(ALDH5A1$tissue); ALDH6A1_tissues <- unique(ALDH6A1$tissue)
+ALDH7A1_tissues <- unique(ALDH7A1$tissue)
+```
+
+### 2. *ADH* and *ALDH* gene expression across GTEx tissues.
+
+```{r gtex_gene_expression}
+# getting gene expression for all genes across all gtex tissues
+gtex <- gzfile("data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",'rt')  
+gtex_expr <- read.table(gtex, skip = 2, sep = "\t", header = TRUE)
+adh_aldh_genes <- c("ADH1A", "ADH1B", "ADH1C", "ADH4", "ADH5", "ADH6", "ALDH16A1", "ALDH18A1",
+                    "ALDH1A1", "ALDH1A2", "ALDH1A3", "ALDH1B1", "ALDH1L1", "ALDH1L2", "ALDH2",
+                    "ALDH3A1", "ALDH3A2", "ALDH3B1", "ALDH3B2", "ALDH4A1", "ALDH5A1", "ALDH6A1",
+                    "ALDH7A1")
+adh_aldh_expr <- gtex_expr[gtex_expr$Description %in% adh_aldh_genes, ]
+
+# fix column names
+colnames(adh_aldh_expr) <- sub("[.]$", "", colnames(adh_aldh_expr)) # remove dot in the end
+colnames(adh_aldh_expr) <- gsub("\\.{1,}", "_", colnames(adh_aldh_expr)) # replace any dot with underscore
+
+# Heatmap of log10(TPM + 1) gene expression across 49 GTEx tissues
+#adh_aldh_expr_melt <- melt(adh_aldh_expr, id="Description", measure.vars = colnames(adh_aldh_expr[3:56])); colnames(adh_aldh_expr_melt) <- c("name", "tissue", "tpm")
+#adh_aldh_expr_melt$log10tpm <- log10(adh_aldh_expr_melt$tpm + 1) # transform to log10(TPM + 1)
+
+adh_aldh_expr[,3:56] <- log10(adh_aldh_expr[,3:56]+1)
+adh_aldh_expr_sub <- adh_aldh_expr[2:56]
+adh_aldh_expr_sub <- remove_rownames(adh_aldh_expr_sub) %>% column_to_rownames(var="Description")
+adh_aldh_mat <- as.matrix(adh_aldh_expr_sub) # convert to matrix
+
+colors = colorRamp2(c(0, max(adh_aldh_mat)), c("white","black"), space = "RGB")
+
+pdf("figures/adh_aldh_gene_expression_heatmap.pdf", width = 16, height = 16)
+Heatmap(t(adh_aldh_mat), name = "log10(TPM+1)",
+        col = colors, na_col = "white",
+        cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
+        column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
+        column_order = adh_aldh_genes,
+        width = unit(14, "cm"), height = unit(22, "cm"),
+        #right_annotation = ha, top_annotation = ht,
+        border = TRUE, rect_gp = gpar(col = "grey"))
+dev.off()
+```
+
+### 3. *ADH* and *ALDH* gene regulation across GTEx tissues.
+
+```{r gene_regulation}
+# This function checks up- and downregulation of ADH and ALDH genes in GTEx tissues. It takes codes3d input as a dataframe and returns if the gene is not expressed, up-, down-, or up/downregulated
+all_t <- rownames(t(adh_aldh_mat))
+up_down <- function(x){
+    ts <- unique(x$tissue) # vector of tissues
+    new <- c()
+    for (t in 1:length(all_t)){
+        if (all_t[t] %in% ts){
+            afs <- x[x$tissue==ts[t],]$log2_aFC # vector of effect sizes
+            if (all(na.omit(afs) > 0)){
+                new <- c(new, "up")
+            } else if (all(na.omit(afs) < 0)) {
+                new <- c(new, "down")
+            } else if (all(na.omit(afs) == 0)) {
+                new <- c(new, NA)
+            } else {
+                new <- c(new, "both")
+            }
+        } else{
+            new <- c(new, NA)
+        }
+    }
+    new
+}
+
+# create a dataframe and populate it with values
+df <- data.frame(ADH1A = up_down(ADH1A), ADH1B = up_down(ADH1B), ADH1C = up_down(ADH1C),
+                 ADH4 = up_down(ADH4), ADH5 = up_down(ADH5), ADH6= up_down(ADH6),
+                 ALDH16A1 = up_down(ALDH16A1), ALDH18A1 = up_down(ALDH18A1),
+                 ALDH1A1 = up_down(ALDH1A1), ALDH1A2 = up_down(ALDH1A2),
+                 ALDH1A3 = up_down(ALDH1A3), ALDH1B1 = up_down(ALDH1B1),
+                 ALDH1L1 = up_down(ALDH1L1), ALDH1L2 = up_down(ALDH1L2), ALDH2 = up_down(ALDH2),
+                 ALDH3A1 = up_down(ALDH3A1), ALDH3A2 = up_down(ALDH3A2),
+                 ALDH3B1 = up_down(ALDH3B1), ALDH3B2 = up_down(ALDH3B2),
+                 ALDH4A1 = up_down(ALDH4A1), ALDH5A1 = up_down(ALDH5A1),
+                 ALDH6A1 = up_down(ALDH6A1), ALDH7A1 = up_down(ALDH7A1),
+                 row.names = rownames(t(adh_aldh_mat)))
+
+discrete_mat <- as.matrix(df)
+colors = structure(c("red", "blue", "black"), names = c("up", "down", "both"))
+
+pdf("figures/adh_aldh_gene_regulation_heatmap.pdf", width = 16, height = 16)
+Heatmap(discrete_mat, name = "regulation",
+        col = colors, na_col = "white",
+        cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
+        column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
+        column_order = adh_aldh_genes,
+        width = unit(14, "cm"), height = unit(22, "cm"),
+        #right_annotation = ha, top_annotation = ht,
+        border = TRUE, rect_gp = gpar(col = "grey"))
+dev.off()
+```
+
+
+
+
+
