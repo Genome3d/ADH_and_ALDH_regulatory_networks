@@ -1,0 +1,5 @@
+"Query"	"GWAS_Trait"	"RS_Number"	"Position_GRCh37"	"Alleles"	"R2"	"D'"	"Risk_Allele"	"Effect_Size_95_CI"	"Beta_or_OR"	"P_value"
+"rs10429583"	"Height"	"rs13291234"	"chr9:75872143"	"G=0.232, T=0.768"	"0.827954319761668"	"1"	"NR"	NA	NA	9e-09
+"rs12551202"	"Height"	"rs13291234"	"chr9:75872143"	"G=0.232, T=0.768"	"0.849696356275304"	"1"	"NR"	NA	NA	9e-09
+"rs10429509"	"Height"	"rs13291234"	"chr9:75872143"	"G=0.232, T=0.768"	"0.849696356275304"	"1"	"NR"	NA	NA	9e-09
+"rs10869243"	"Height"	"rs13291234"	"chr9:75872143"	"G=0.232, T=0.768"	"0.827954319761668"	"1"	"NR"	NA	NA	9e-09

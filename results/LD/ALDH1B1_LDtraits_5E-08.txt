@@ -1,0 +1,2 @@
+"Query"	"GWAS_Trait"	"RS_Number"	"Position_GRCh37"	"Alleles"	"R2"	"D'"	"Risk_Allele"	"Effect_Size_95_CI"	"Beta_or_OR"	"P_value"
+"rs3043"	"Alcohol consumption (drinkers vs non-drinkers)"	"rs3043"	"chr9:38397355"	"C=0.758, G=0.242"	"1"	"1"	"NR"	"0.015"	"0.012-0.018"	3e-19

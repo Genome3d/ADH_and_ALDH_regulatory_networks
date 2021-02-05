@@ -1,0 +1,5 @@
+"Query"	"GWAS_Trait"	"RS_Number"	"Position_GRCh37"	"Alleles"	"R2"	"D'"	"Risk_Allele"	"Effect_Size_95_CI"	"Beta_or_OR"	"P_value"
+"rs34589365"	"Serum metabolite levels"	"rs12288023"	"chr11:67421341"	"C=0.116, T=0.884"	"0.951086956521739"	"1"	"0.09"	"0.27"	NA	9e-16
+"rs4313593"	"Serum metabolite levels"	"rs12288023"	"chr11:67421341"	"C=0.116, T=0.884"	"0.951086956521739"	"1"	"0.09"	"0.27"	NA	9e-16
+"rs4569014"	"Serum metabolite levels"	"rs12288023"	"chr11:67421341"	"C=0.116, T=0.884"	"0.951086956521739"	"1"	"0.09"	"0.27"	NA	9e-16
+"rs5019163"	"Serum metabolite levels"	"rs12288023"	"chr11:67421341"	"C=0.116, T=0.884"	"0.951086956521739"	"1"	"0.09"	"0.27"	NA	9e-16

@@ -1,0 +1,9 @@
+"Query"	"GWAS_Trait"	"RS_Number"	"Position_GRCh37"	"Alleles"	"R2"	"D'"	"Risk_Allele"	"Effect_Size_95_CI"	"Beta_or_OR"	"P_value"
+"rs4930228"	"IgG glycosylation"	"rs4930561"	"chr11:67931761"	"A=0.505, G=0.495"	"0.816666666666667"	"1"	"0.510670339237057"	"0.1714"	"0.11-0.23"	1e-08
+"rs4930228"	"IgG glycosylation"	"rs4930561"	"chr11:67931761"	"A=0.505, G=0.495"	"0.816666666666667"	"1"	"0.511382618397086"	"0.185"	"0.13-0.24"	9e-10
+"rs4930228"	"Breast cancer in childhood cancer survivors"	"rs4930561"	"chr11:67931761"	"A=0.505, G=0.495"	"0.816666666666667"	"1"	"0.49"	"1.59"	"1.30-1.92"	3e-07
+"rs10896298"	"IgG glycosylation"	"rs4930561"	"chr11:67931761"	"A=0.505, G=0.495"	"1"	"1"	"0.510670339237057"	"0.1714"	"0.11-0.23"	1e-08
+"rs10896298"	"IgG glycosylation"	"rs4930561"	"chr11:67931761"	"A=0.505, G=0.495"	"1"	"1"	"0.511382618397086"	"0.185"	"0.13-0.24"	9e-10
+"rs10896298"	"Breast cancer in childhood cancer survivors"	"rs4930561"	"chr11:67931761"	"A=0.505, G=0.495"	"1"	"1"	"0.49"	"1.59"	"1.30-1.92"	3e-07
+"rs61887797"	"Waist-to-hip ratio adjusted for BMI"	"rs11600312"	"chr11:68035540"	"A=0.076, G=0.924"	"0.819672131147541"	"1"	"NR"	NA	NA	4e-08
+"rs11606508"	"Waist-to-hip ratio adjusted for BMI"	"rs11600312"	"chr11:68035540"	"A=0.076, G=0.924"	"0.819672131147541"	"1"	"NR"	NA	NA	4e-08
