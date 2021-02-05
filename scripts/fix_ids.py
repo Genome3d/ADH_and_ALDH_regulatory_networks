@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
 import csv
-#import pandas as pd
+
+# Run Run from ADH_and_ALDH_regulatory_networks/ directory
 
 # The RsMergeArch.bcp.gz file (ftp://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606_b151_GRCh38p7/database/organism_data/RsMergeArch.bcp.gz)
 # with rs merge table for genome GRCh38p7 build 151 was downloaded from the dbSNP ftp site
@@ -9,25 +10,25 @@ import csv
 
 # This code adds "rs" to the old and new IDs in the RsMergeArch.bcp file and returns them.
 
-#to_replace = []
-#with open("data/RsMergeArch.bcp", 'r') as f:
-#    snp_reader = csv.reader(f, delimiter='\t')
-#    for row in snp_reader:
-#        snp_ids = row[:2]
-#        new_snp_ids = []
-#        for snp in snp_ids:
-#        	snp = "rs" + snp
-#        	new_snp_ids += [snp]
-#        to_replace.append(new_snp_ids)
+to_replace = []
+with open("data/RsMergeArch.bcp", 'r') as f:
+    snp_reader = csv.reader(f, delimiter='\t')
+    for row in snp_reader:
+        snp_ids = row[:2]
+        new_snp_ids = []
+        for snp in snp_ids:
+        	snp = "rs" + snp
+        	new_snp_ids += [snp]
+        to_replace.append(new_snp_ids)
 
 # The first column is the merged old SNP rsID. The second column is a new one.
-#with open("data/RsMergeArch_rs.txt", 'w') as w:
-#	writer = csv.writer(w, delimiter='\t')
-#	writer.writerows(to_replace)
+with open("data/RsMergeArch_rs.txt", 'w') as w:
+	writer = csv.writer(w, delimiter='\t')
+	writer.writerows(to_replace)
 
 
 # The code accepts your table, reads the first column with rsIDs and checks if the SNP ID is old merged
-# and replace it with a new one.
+# and create a new column with replaced rsIDs.
 
 #with open('results/gwas/gwas_5E-08_snpsfixed_traitfixed.txt') as f:
 #	snp_to_test = [line.split()[0] for line in f]
