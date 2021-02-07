@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # install.packages("pacman")
 # load libraries
-pacman::p_load(ggplot2, ComplexHeatmap, dplyr, tidyr, reshape2, tidyverse, circlize, LDlinkR)
+pacman::p_load(ggplot2, ComplexHeatmap, dplyr, tidyr, reshape2, tidyverse, circlize, LDlinkR, UpSetR)
 
 setwd("/Users/foffa/Desktop/ADH_and_ALDH_regulatory_networks")
 ```
@@ -373,7 +373,7 @@ ALDH7A1_df_gw <- subset(ALDH7A1_df, P_value < 0.00000005) # only genome-wide sig
 #write.table(ALDH7A1_df_gw, file = "results/LD/ALDH7A1_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 ```
 
-Here, we plot percent of all and genome-wide significant associations of *ADH* and *ALDH* eQTLs with GWAS traits.
+Here, we plot percentage of all and genome-wide significant associations of *ADH* and *ALDH* eQTLs with GWAS traits.
 
 ```{r eQTL-trait_associations}
 # to get number of ADH1A eQTLs associated with traits: length(unique(ADH1A_df$Query))
@@ -396,7 +396,7 @@ ADH.df <- data.frame(
                    100-round(ADH_esnps_assoc/ADH_esnps*100, 2)))
 
 #tiff("figures/percent_ADH_eQTLs.tif", units="in", width=10, height=8, res=300)
-pdf("figures/percent_ADH_eQTLs.pdf", width = 10, height = 8)
+#pdf("figures/percent_ADH_eQTLs.pdf", width = 10, height = 8)
 #jpeg("figures/percent_ADH_eQTLs.jpeg", units="in", width=10, height=8, res=300)
 ggplot(ADH.df, aes(x = gene, y = percentage, fill = esnps)) +
     geom_bar(stat="identity", position = "stack") + 
@@ -415,7 +415,7 @@ ggplot(ADH.df, aes(x = gene, y = percentage, fill = esnps)) +
             position=position_stack(vjust = 0.5), vjust=-0.25, color = "black", 
             size = 8, fontface = 'italic') +
     labs(y = "Percentage")
-dev.off()
+#dev.off()
 
 # genome-wide significant associations
 ADH_esnps_assoc_gw <- c(length(unique(ADH1A_df_gw$Query)), length(unique(ADH1B_df_gw$Query)),
@@ -428,7 +428,7 @@ ADH_gw.df <- data.frame(
   percentage = c(round(ADH_esnps_assoc_gw/ADH_esnps_assoc*100, 2)))
 
 #tiff("figures/percent_ADH_eQTLs_gw.tif", units="in", width=10, height=8, res=300)
-pdf("figures/percent_ADH_eQTLs_gw.pdf", width = 10, height = 8)
+#pdf("figures/percent_ADH_eQTLs_gw.pdf", width = 10, height = 8)
 #jpeg("figures/percent_ADH_eQTLs_gw.jpeg", units="in", width=10, height=8, res=300)
 ggplot(ADH_gw.df, aes(x = gene, y = percentage)) +
     geom_bar(stat="identity", position = "identity") + 
@@ -447,7 +447,7 @@ ggplot(ADH_gw.df, aes(x = gene, y = percentage)) +
             position=position_dodge(width=0.9), vjust=-0.25, color = "black", 
             size = 8, fontface = 'italic') +
     labs(y = "Percentage")
-dev.off()
+#dev.off()
 
 # 17 ALDH genes
 # all associations
@@ -479,7 +479,7 @@ ALDH.df <- data.frame(
                    100-round(ALDH_esnps_assoc/ALDH_esnps*100, 2)))
 
 #tiff("figures/percent_ALDH_eQTLs.tif", units="in", width=20, height=8, res=300)
-pdf("figures/percent_ALDH_eQTLs.pdf", width = 20, height = 8)
+#pdf("figures/percent_ALDH_eQTLs.pdf", width = 20, height = 8)
 #jpeg("figures/percent_ALDH_eQTLs.jpeg", units="in", width=20, height=8, res=300)
 ggplot(ALDH.df, aes(x = gene, y = percentage, fill = esnps)) +
     geom_bar(stat="identity", position = "stack") + 
@@ -498,7 +498,7 @@ ggplot(ALDH.df, aes(x = gene, y = percentage, fill = esnps)) +
             position=position_stack(vjust = 0.4), vjust=-0.25, color = "black", 
             size = 8, fontface = 'italic') +
     labs(y = "Percentage")
-dev.off()
+#dev.off()
 
 # genome-wide significant associations
 ALDH_esnps_assoc_gw <- c(length(unique(ALDH16A1_df_gw$Query)), length(unique(ALDH18A1_df_gw$Query)),
@@ -515,7 +515,7 @@ ALDH_gw.df <- data.frame(
     percentage = c(round(ALDH_esnps_assoc_gw/ALDH_esnps_assoc*100, 2)))
 
 #tiff("figures/percent_ALDH_eQTLs_gw.tif", units="in", width=20, height=8, res=300)
-pdf("figures/percent_ALDH_eQTLs_gw.pdf", width = 20, height = 8)
+#pdf("figures/percent_ALDH_eQTLs_gw.pdf", width = 20, height = 8)
 #jpeg("figures/percent_ADH_eQTLs_gw.jpeg", units="in", width=20, height=8, res=300)
 ggplot(ALDH_gw.df, aes(x = gene, y = percentage)) +
     geom_bar(stat="identity", position = "identity") + 
@@ -534,9 +534,234 @@ ggplot(ALDH_gw.df, aes(x = gene, y = percentage)) +
             position=position_dodge(width=0.9), vjust=-0.25, color = "black", 
             size = 8, fontface = 'italic') +
     labs(y = "Percentage")
-dev.off()
+#dev.off()
 ```
 
+Get number of *ADH* and *ALDH* eQTLs per each GWAS trait.
+
+```{r ADH_and_ALDH_traits}
+# 6 ADH genes
+ADH_traits_df <- data.frame()
+ADH1A_melt <- melt(ADH1A_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ADH1A_melt <- dcast(ADH1A_melt, value ~ variable)
+ADH1A_melt$gene <- "ADH1A"
+ADH_traits_df <- rbind(ADH_traits_df, ADH1A_melt)
+ADH1B_melt <- melt(ADH1B_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ADH1B_melt <- dcast(ADH1B_melt, value ~ variable)
+ADH1B_melt$gene <- "ADH1B"
+ADH_traits_df <- rbind(ADH_traits_df, ADH1B_melt)
+ADH1C_melt <- melt(ADH1C_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ADH1C_melt <- dcast(ADH1C_melt, value ~ variable)
+ADH1C_melt$gene <- "ADH1C"
+ADH_traits_df <- rbind(ADH_traits_df, ADH1C_melt)
+ADH4_melt <- melt(ADH4_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ADH4_melt <- dcast(ADH4_melt, value ~ variable)
+ADH4_melt$gene <- "ADH4"
+ADH_traits_df <- rbind(ADH_traits_df, ADH4_melt)
+ADH5_melt <- melt(ADH5_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ADH5_melt <- dcast(ADH5_melt, value ~ variable)
+ADH5_melt$gene <- "ADH5"
+ADH_traits_df <- rbind(ADH_traits_df, ADH5_melt)
+ADH6_melt <- melt(ADH6_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ADH6_melt <- dcast(ADH6_melt, value ~ variable)
+ADH6_melt$gene <- "ADH6"
+ADH_traits_df <- rbind(ADH_traits_df, ADH6_melt)
+#length(unique(ADH_traits_df$value)) # 107 unique traits for ADH genes
+#writeLines(unique(ADH_traits_df$value), con = "results/LD/unique_ADH_LDtraits.txt", sep = "\n")
+#write.table(ADH_traits_df, file = "results/LD/ADH_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+
+# 17 - 3 = 14 ALDH genes
+ALDH_traits_df <- data.frame()
+ALDH16A1_melt <- melt(ALDH16A1_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH16A1_melt <- dcast(ALDH16A1_melt, value ~ variable)
+ALDH16A1_melt$gene <- "ALDH16A1"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH16A1_melt)
+ALDH18A1_melt <- melt(ALDH18A1_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH18A1_melt <- dcast(ALDH18A1_melt, value ~ variable)
+ALDH18A1_melt$gene <- "ALDH18A1"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH18A1_melt)
+ALDH1A1_melt <- melt(ALDH1A1_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH1A1_melt <- dcast(ALDH1A1_melt, value ~ variable)
+ALDH1A1_melt$gene <- "ALDH1A1"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH1A1_melt)
+ALDH1B1_melt <- melt(ALDH1B1_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH1B1_melt <- dcast(ALDH1B1_melt, value ~ variable)
+ALDH1B1_melt$gene <- "ALDH1B1"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH1B1_melt)
+ALDH1L1_melt <- melt(ALDH1L1_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH1L1_melt <- dcast(ALDH1L1_melt, value ~ variable)
+ALDH1L1_melt$gene <- "ALDH1L1"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH1L1_melt)
+ALDH1L2_melt <- melt(ALDH1L2_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH1L2_melt <- dcast(ALDH1L2_melt, value ~ variable)
+ALDH1L2_melt$gene <- "ALDH1L2"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH1L2_melt)
+ALDH2_melt <- melt(ALDH2_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH2_melt <- dcast(ALDH2_melt, value ~ variable)
+ALDH2_melt$gene <- "ALDH2"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH2_melt)
+ALDH3A1_melt <- melt(ALDH3A1_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH3A1_melt <- dcast(ALDH3A1_melt, value ~ variable)
+ALDH3A1_melt$gene <- "ALDH3A1"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH3A1_melt)
+ALDH3A2_melt <- melt(ALDH3A2_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH3A2_melt <- dcast(ALDH3A2_melt, value ~ variable)
+ALDH3A2_melt$gene <- "ALDH3A2"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH3A2_melt)
+ALDH3B1_melt <- melt(ALDH3B1_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH3B1_melt <- dcast(ALDH3B1_melt, value ~ variable)
+ALDH3B1_melt$gene <- "ALDH3B1"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH3B1_melt)
+ALDH3B2_melt <- melt(ALDH3B2_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH3B2_melt <- dcast(ALDH3B2_melt, value ~ variable)
+ALDH3B2_melt$gene <- "ALDH3B2"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH3B2_melt)
+ALDH5A1_melt <- melt(ALDH5A1_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH5A1_melt <- dcast(ALDH5A1_melt, value ~ variable)
+ALDH5A1_melt$gene <- "ALDH5A1"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH5A1_melt)
+ALDH6A1_melt <- melt(ALDH6A1_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH6A1_melt <- dcast(ALDH6A1_melt, value ~ variable)
+ALDH6A1_melt$gene <- "ALDH6A1"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH6A1_melt)
+ALDH7A1_melt <- melt(ALDH7A1_df_gw, id="Query", measure.vars = "GWAS_Trait")
+ALDH7A1_melt <- dcast(ALDH7A1_melt, value ~ variable)
+ALDH7A1_melt$gene <- "ALDH7A1"
+ALDH_traits_df <- rbind(ALDH_traits_df, ALDH7A1_melt)
+#length(unique(ALDH_traits_df$value)) # 302 unique traits for ALDH genes
+#writeLines(unique(ALDH_traits_df$value), con = "results/LD/unique_ALDH_LDtraits.txt", sep = "\n")
+#write.table(ALDH_traits_df, file = "results/LD/ALDH_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+```
+
+Get the number of overlapping *ADH* and *ALDH* eQTLs.
+
+```{r eQTL_overlaps}
+# 6 ADH genes
+# overlapps between ADH eQTLs having trait associateions
+ADH1A_gw_esnps <- unique(ADH1A_df_gw$Query)
+ADH1B_gw_esnps <- unique(ADH1B_df_gw$Query)
+ADH1C_gw_esnps <- unique(ADH1C_df_gw$Query)
+ADH4_gw_esnps <- unique(ADH4_df_gw$Query)
+ADH5_gw_esnps <- unique(ADH5_df_gw$Query)
+ADH6_gw_esnps <- unique(ADH6_df_gw$Query)
+
+list_gw_esnps <- list("ADH1A" = ADH1A_gw_esnps, "ADH1B" = ADH1B_gw_esnps, "ADH1C" = ADH1C_gw_esnps, 
+                   "ADH4" = ADH4_gw_esnps, "ADH5" = ADH5_gw_esnps, "ADH6" = ADH6_gw_esnps)
+# Ordered by degree
+#tiff("figures/ADH_gw_esnp_overlaps.tif", units="in", width=12, height=8, res=300)
+#jpeg("figures/ADH_gw_esnp_overlaps.jpeg", units="in", width=12, height=8, res=300)
+#pdf("figures/ADH_gw_esnp_overlaps.pdf", width = 12, height = 8)
+upset(fromList(list_gw_esnps), sets = c("ADH6", "ADH5", "ADH4", "ADH1C", "ADH1B", "ADH1A"),
+      nintersects = NA, keep.order = TRUE, sets.x.label = "Number of eQTLs", 
+      mainbar.y.label = "Number of overlapping eQTLs", point.size=4.5, text.scale = 2.2,
+      group.by = "degree", order.by = "degree", main.bar.color = "black",
+      sets.bar.color = c("#d9d9d9","#bdbdbd", "#969696", "#737373", "#525252", "#252525"),
+      number.angles = 0)
+#dev.off()
+
+# overlapps between ADH eQTLs having no genome-wide significant trait associations
+ADH1A_nogw_esnps <- ADH1A_esnps[!(ADH1A_esnps %in% unique(ADH1A_df_gw$Query))]
+ADH1B_nogw_esnps <- ADH1B_esnps[!(ADH1B_esnps %in% unique(ADH1B_df_gw$Query))]
+ADH1C_nogw_esnps <- ADH1C_esnps[!(ADH1C_esnps %in% unique(ADH1C_df_gw$Query))]
+ADH4_nogw_esnps <- ADH4_esnps[!(ADH4_esnps %in% unique(ADH4_df_gw$Query))]
+ADH5_nogw_esnps <- ADH5_esnps[!(ADH5_esnps %in% unique(ADH5_df_gw$Query))]
+ADH6_nogw_esnps <- ADH6_esnps[!(ADH1B_esnps %in% unique(ADH6_df_gw$Query))]
+
+list_nogw_esnps <- list("ADH1A" = ADH1A_nogw_esnps, "ADH1B" = ADH1B_nogw_esnps,
+                        "ADH1C" = ADH1C_nogw_esnps, "ADH4" = ADH4_nogw_esnps,
+                        "ADH5" = ADH5_nogw_esnps, "ADH6" = ADH6_nogw_esnps)
+# Ordered by degree
+#tiff("figures/ADH_nogw_esnp_overlaps.tif", units="in", width=12, height=8, res=300)
+#jpeg("figures/ADH_nogw_esnp_overlaps.jpeg", units="in", width=12, height=8, res=300)
+#pdf("figures/ADH_nogw_esnp_overlaps.pdf", width = 13, height = 8)
+upset(fromList(list_nogw_esnps), sets = c("ADH6", "ADH5", "ADH4", "ADH1C", "ADH1B", "ADH1A"),
+      nintersects = NA, keep.order = TRUE, sets.x.label = "Number of eQTLs", 
+      mainbar.y.label = "Number of overlapping eQTLs", point.size=4.5, text.scale = 2.2,
+      group.by = "degree", order.by = "degree", main.bar.color = "black",
+      sets.bar.color = c("#d9d9d9","#bdbdbd", "#969696", "#737373", "#525252", "#252525"),
+      number.angles = 0)
+#dev.off()
+
+# 14 ALDH genes
+# overlapps between ALDH eQTLs having trait associateions
+ALDH16A1_gw_esnps <- unique(ALDH16A1_df_gw$Query)
+ALDH18A1_gw_esnps <- unique(ALDH18A1_df_gw$Query)
+ALDH1A1_gw_esnps <- unique(ALDH1A1_df_gw$Query)
+ALDH1B1_gw_esnps <- unique(ALDH1B1_df_gw$Query)
+ALDH1L1_gw_esnps <- unique(ALDH1L1_df_gw$Query)
+ALDH1L2_gw_esnps <- unique(ALDH1L2_df_gw$Query)
+ALDH2_gw_esnps <- unique(ALDH2_df_gw$Query)
+ALDH3A1_gw_esnps <- unique(ALDH3A1_df_gw$Query)
+ALDH3A2_gw_esnps <- unique(ALDH3A2_df_gw$Query)
+ALDH3B1_gw_esnps <- unique(ALDH3B1_df_gw$Query)
+ALDH3B2_gw_esnps <- unique(ALDH3B2_df_gw$Query)
+ALDH5A1_gw_esnps <- unique(ALDH5A1_df_gw$Query)
+ALDH6A1_gw_esnps <- unique(ALDH6A1_df_gw$Query)
+ALDH7A1_gw_esnps <- unique(ALDH7A1_df_gw$Query)
+
+list_gw_esnps <- list("ALDH16A1" = ALDH16A1_gw_esnps, "ALDH18A1" = ALDH18A1_gw_esnps,
+                      "ALDH1A1" = ALDH1A1_gw_esnps, "ALDH1B1" = ALDH1B1_gw_esnps,
+                      "ALDH1L1" = ALDH1L1_gw_esnps, "ALDH1L2" = ALDH1L2_gw_esnps,
+                      "ALDH2" = ALDH2_gw_esnps, "ALDH3A1" = ALDH3A1_gw_esnps,
+                      "ALDH3A2" = ALDH3A2_gw_esnps, "ALDH3B1" = ALDH3B1_gw_esnps,
+                      "ALDH3B2" = ALDH3B2_gw_esnps, "ALDH5A1" = ALDH5A1_gw_esnps,
+                      "ALDH6A1" = ALDH6A1_gw_esnps, "ALDH7A1" = ALDH7A1_gw_esnps)
+# Ordered by degree
+#tiff("figures/ALDH_gw_esnp_overlaps.tif", units="in", width=14, height=11, res=300)
+#jpeg("figures/ALDH_gw_esnp_overlaps.jpeg", units="in", width=14, height=11, res=300)
+#pdf("figures/ALDH_gw_esnp_overlaps.pdf", width = 14, height = 11)
+upset(fromList(list_gw_esnps), sets = c("ALDH7A1", "ALDH6A1", "ALDH5A1", "ALDH3B2", "ALDH3B1",
+                                        "ALDH3A2", "ALDH3A1", "ALDH2", "ALDH1L2", "ALDH1L1",
+                                        "ALDH1B1", "ALDH1A1", "ALDH18A1", "ALDH16A1"),
+      nintersects = NA, keep.order = TRUE, sets.x.label = "Number of eQTLs", 
+      mainbar.y.label = "Number of overlapping eQTLs", point.size=4.5, text.scale = 2.2,
+      group.by = "degree", order.by = "degree", main.bar.color = "black",
+      sets.bar.color = c("#F5F5F5","#E8E8E8", "#DCDCDC", "#D3D3D3", "#C8C8C8", "#BEBEBE",
+                         "#B0B0B0", "#A8A8A8", "#989898", "#888888", "#787878", "696969",
+                         "#505050", "#303030"),
+      number.angles = 0)
+#dev.off()
+
+# overlapps between ALDH eQTLs having no genome-wide significant trait associations
+ALDH16A1_nogw_esnps <- ALDH16A1_esnps[!(ALDH16A1_esnps %in% unique(ALDH16A1_df_gw$Query))]
+ALDH18A1_nogw_esnps <- ALDH18A1_esnps[!(ALDH18A1_esnps %in% unique(ALDH18A1_df_gw$Query))]
+ALDH1A1_nogw_esnps <- ALDH1A1_esnps[!(ALDH1A1_esnps %in% unique(ALDH1A1_df_gw$Query))]
+ALDH1B1_nogw_esnps <- ALDH1B1_esnps[!(ALDH1B1_esnps %in% unique(ALDH1B1_df_gw$Query))]
+ALDH1L1_nogw_esnps <- ALDH1L1_esnps[!(ALDH1L1_esnps %in% unique(ALDH1L1_df_gw$Query))]
+ALDH1L2_nogw_esnps <- ALDH1L2_esnps[!(ALDH1L2_esnps %in% unique(ALDH1L2_df_gw$Query))]
+ALDH2_nogw_esnps <- ALDH2_esnps[!(ALDH2_esnps %in% unique(ALDH2_df_gw$Query))]
+ALDH3A1_nogw_esnps <- ALDH3A1_esnps[!(ALDH3A1_esnps %in% unique(ALDH3A1_df_gw$Query))]
+ALDH3A2_nogw_esnps <- ALDH3A2_esnps[!(ALDH3A2_esnps %in% unique(ALDH3A2_df_gw$Query))]
+ALDH3B1_nogw_esnps <- ALDH3B1_esnps[!(ALDH3B1_esnps %in% unique(ALDH3B1_df_gw$Query))]
+ALDH3B2_nogw_esnps <- ALDH3B2_esnps[!(ALDH3B2_esnps %in% unique(ALDH3B2_df_gw$Query))]
+ALDH5A1_nogw_esnps <- ALDH5A1_esnps[!(ALDH5A1_esnps %in% unique(ALDH5A1_df_gw$Query))]
+ALDH6A1_nogw_esnps <- ALDH6A1_esnps[!(ALDH6A1_esnps %in% unique(ALDH6A1_df_gw$Query))]
+ALDH7A1_nogw_esnps <- ALDH7A1_esnps[!(ALDH7A1_esnps %in% unique(ALDH7A1_df_gw$Query))]
+
+list_nogw_esnps <- list("ALDH16A1" = ALDH16A1_nogw_esnps, "ALDH18A1" = ALDH18A1_nogw_esnps,
+                      "ALDH1A1" = ALDH1A1_nogw_esnps, "ALDH1B1" = ALDH1B1_nogw_esnps,
+                      "ALDH1L1" = ALDH1L1_nogw_esnps, "ALDH1L2" = ALDH1L2_nogw_esnps,
+                      "ALDH2" = ALDH2_nogw_esnps, "ALDH3A1" = ALDH3A1_nogw_esnps,
+                      "ALDH3A2" = ALDH3A2_nogw_esnps, "ALDH3B1" = ALDH3B1_nogw_esnps,
+                      "ALDH3B2" = ALDH3B2_nogw_esnps, "ALDH5A1" = ALDH5A1_nogw_esnps,
+                      "ALDH6A1" = ALDH6A1_nogw_esnps, "ALDH7A1" = ALDH7A1_nogw_esnps)
+# Ordered by degree
+#tiff("figures/ALDH_nogw_esnp_overlaps.tif", units="in", width=14, height=11, res=300)
+#jpeg("figures/ALDH_nogw_esnp_overlaps.jpeg", units="in", width=14, height=11, res=300)
+#pdf("figures/ALDH_nogw_esnp_overlaps.pdf", width = 14, height = 11)
+upset(fromList(list_nogw_esnps), sets = c("ALDH7A1", "ALDH6A1", "ALDH5A1", "ALDH3B2", "ALDH3B1",
+                                        "ALDH3A2", "ALDH3A1", "ALDH2", "ALDH1L2", "ALDH1L1",
+                                        "ALDH1B1", "ALDH1A1", "ALDH18A1", "ALDH16A1"),
+      nintersects = NA, keep.order = TRUE, sets.x.label = "Number of eQTLs", 
+      mainbar.y.label = "Number of overlapping eQTLs", point.size=4.5, text.scale = 2.2,
+      group.by = "degree", order.by = "degree", main.bar.color = "black",
+      sets.bar.color = c("#F5F5F5","#E8E8E8", "#DCDCDC", "#D3D3D3", "#C8C8C8", "#BEBEBE",
+                         "#B0B0B0", "#A8A8A8", "#989898", "#888888", "#787878", "696969",
+                         "#505050", "#303030"),
+      number.angles = 0)
+#dev.off()
+
+```
 
 
 
