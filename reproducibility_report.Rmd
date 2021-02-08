@@ -537,7 +537,7 @@ ggplot(ALDH_gw.df, aes(x = gene, y = percentage)) +
 #dev.off()
 ```
 
-Get number of *ADH* and *ALDH* eQTLs per each GWAS trait.
+Get number of *ADH* and *ALDH* eQTL associations with GWAS trait.
 
 ```{r ADH_and_ALDH_traits}
 # 6 ADH genes
@@ -760,7 +760,124 @@ upset(fromList(list_nogw_esnps), sets = c("ALDH7A1", "ALDH6A1", "ALDH5A1", "ALDH
                          "#505050", "#303030"),
       number.angles = 0)
 #dev.off()
+```
 
+Plot ADH eQTLs associations with alcohol dependence, alcohol use disorder and alcohol consumption traits across different tissues.
+
+```{r AD_AUD_and_AC_eQTLs_associations}
+# Alcohol dependence: ADH1A, ADH1C, ADH4, ADH5
+ADH1A_AD <- ADH1A_df_gw[ADH1A_df_gw$GWAS_Trait=="Alcohol dependence", ]
+ADH1A_AD_esnps <- unique(ADH1A_AD$Query) # 27
+ADH1C_AD <- ADH1C_df_gw[ADH1C_df_gw$GWAS_Trait=="Alcohol dependence", ]
+ADH1C_AD_esnps <- unique(ADH1C_AD$Query) # 112
+ADH4_AD <- ADH4_df_gw[ADH4_df_gw$GWAS_Trait=="Alcohol dependence", ]
+ADH4_AD_esnps <- unique(ADH4_AD$Query) # 102
+ADH5_AD <- ADH5_df_gw[ADH5_df_gw$GWAS_Trait=="Alcohol dependence", ]
+ADH5_AD_esnps <- unique(ADH5_AD$Query) # 6
+
+ADH1A_AD.df <- ADH1A[ADH1A$snp %in% ADH1A_AD_esnps, ]; length(unique(ADH1A_AD.df$tissue)) # 23
+ADH1C_AD.df <- ADH1C[ADH1C$snp %in% ADH1C_AD_esnps, ]; length(unique(ADH1C_AD.df$tissue)) # 27
+ADH4_AD.df <- ADH4[ADH4$snp %in% ADH4_AD_esnps, ]; length(unique(ADH4_AD.df$tissue)) # 14
+ADH5_AD.df <- ADH5[ADH5$snp %in% ADH5_AD_esnps, ]; length(unique(ADH5_AD.df$tissue)) # 1
+
+# create a dataframe and populate it with up- and downregulation values
+ADH_AD.df <- data.frame(ADH1A = up_down(ADH1A_AD.df), ADH1B = NA, ADH1C = up_down(ADH1C_AD.df),
+                        ADH4 = up_down(ADH4_AD.df), ADH5 = up_down(ADH5_AD.df), ADH6 = NA,
+                        row.names = rownames(t(adh_aldh_mat)))
+ADH_AD_mat <- as.matrix(ADH_AD.df)
+colors = structure(c("#ED1C24", "#1C75BC", "black"), names = c("up", "down", "both"))
+
+#pdf("figures/adh_ad_gene_regulation_heatmap.pdf", width = 10, height = 16)
+ad_gr <- Heatmap(ADH_AD_mat, name = "regulation",
+                 col = colors, na_col = "white",
+                 cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
+                 column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
+                 column_order = c("ADH1A", "ADH1B", "ADH1C", "ADH4", "ADH5", "ADH6"),
+                 width = unit(5, "cm"), height = unit(22, "cm"),
+                 border = TRUE, rect_gp = gpar(col = "grey"),
+                 heatmap_legend_param = list(legend_direction = "horizontal",
+                                             legend_width = unit(5, "cm")))
+draw(ad_gr, heatmap_legend_side = "bottom")
+#dev.off()
+
+# Alcohol use disorder: ADH1A, ADH1B, ADH1C, ADH4, ADH5, ADH6
+ADH1A_AUD <- ADH1A_df_gw[ADH1A_df_gw$GWAS_Trait=="Alcohol use disorder", ]
+ADH1A_AUD_esnps <- unique(ADH1A_AUD$Query) # 2
+ADH1B_AUD <- ADH1B_df_gw[ADH1B_df_gw$GWAS_Trait=="Alcohol use disorder", ]
+ADH1B_AUD_esnps <- unique(ADH1B_AUD$Query) # 233
+ADH1C_AUD <- ADH1C_df_gw[ADH1C_df_gw$GWAS_Trait=="Alcohol use disorder", ]
+ADH1C_AUD_esnps <- unique(ADH1C_AUD$Query) # 107
+ADH4_AUD <- ADH4_df_gw[ADH4_df_gw$GWAS_Trait=="Alcohol use disorder", ]
+ADH4_AUD_esnps <- unique(ADH4_AUD$Query) # 339
+ADH5_AUD <- ADH5_df_gw[ADH5_df_gw$GWAS_Trait=="Alcohol use disorder", ]
+ADH5_AUD_esnps <- unique(ADH5_AUD$Query) # 237
+ADH6_AUD <- ADH6_df_gw[ADH6_df_gw$GWAS_Trait=="Alcohol use disorder", ]
+ADH6_AUD_esnps <- unique(ADH6_AUD$Query) # 237
+
+ADH1A_AUD.df <- ADH1A[ADH1A$snp %in% ADH1A_AUD_esnps, ]; length(unique(ADH1A_AUD.df$tissue)) # 1
+ADH1B_AUD.df <- ADH1B[ADH1B$snp %in% ADH1B_AUD_esnps, ]; length(unique(ADH1B_AUD.df$tissue)) # 1
+ADH1C_AUD.df <- ADH1C[ADH1C$snp %in% ADH1C_AUD_esnps, ]; length(unique(ADH1C_AUD.df$tissue)) # 26
+ADH4_AUD.df <- ADH4[ADH4$snp %in% ADH4_AUD_esnps, ]; length(unique(ADH4_AUD.df$tissue)) # 17
+ADH5_AUD.df <- ADH5[ADH5$snp %in% ADH5_AUD_esnps, ]; length(unique(ADH5_AUD.df$tissue)) # 9
+ADH6_AUD.df <- ADH6[ADH6$snp %in% ADH6_AUD_esnps, ]; length(unique(ADH6_AUD.df$tissue)) # 4
+
+# create a dataframe and populate it with up- and downregulation values
+ADH_AUD.df <- data.frame(ADH1A = up_down(ADH1A_AUD.df), ADH1B = up_down(ADH1B_AUD.df),
+                         ADH1C = up_down(ADH1C_AUD.df), ADH4 = up_down(ADH4_AUD.df),
+                         ADH5 = up_down(ADH5_AUD.df), ADH6 = up_down(ADH6_AUD.df),
+                         row.names = rownames(t(adh_aldh_mat)))
+ADH_AUD_mat <- as.matrix(ADH_AUD.df)
+
+#pdf("figures/adh_aud_gene_regulation_heatmap.pdf", width = 10, height = 16)
+aud_gr <- Heatmap(ADH_AUD_mat, name = "regulation",
+                  col = colors, na_col = "white",
+                  cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
+                  column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
+                  column_order = c("ADH1A", "ADH1B", "ADH1C", "ADH4", "ADH5", "ADH6"),
+                  width = unit(5, "cm"), height = unit(22, "cm"),
+                  border = TRUE, rect_gp = gpar(col = "grey"),
+                  heatmap_legend_param = list(legend_direction = "horizontal",
+                                              legend_width = unit(5, "cm")))
+draw(aud_gr, heatmap_legend_side = "bottom")
+#dev.off()
+
+# Alcohol consumption (drinks per week): ADH1A, ADH1B, ADH1C, ADH4, ADH5
+ADH1A_AC <- ADH1A_df_gw[ADH1A_df_gw$GWAS_Trait=="Alcohol consumption (drinks per week)", ]
+ADH1A_AC_esnps <- unique(ADH1A_AC$Query) # 80
+ADH1B_AC <- ADH1B_df_gw[ADH1B_df_gw$GWAS_Trait=="Alcohol consumption (drinks per week)", ]
+ADH1B_AC_esnps <- unique(ADH1B_AC$Query) # 35
+ADH1C_AC <- ADH1C_df_gw[ADH1C_df_gw$GWAS_Trait=="Alcohol consumption (drinks per week)", ]
+ADH1C_AC_esnps <- unique(ADH1C_AC$Query) # 189
+ADH4_AC <- ADH4_df_gw[ADH4_df_gw$GWAS_Trait=="Alcohol consumption (drinks per week)", ]
+ADH4_AC_esnps <- unique(ADH4_AC$Query) # 122
+ADH5_AC <- ADH5_df_gw[ADH5_df_gw$GWAS_Trait=="Alcohol consumption (drinks per week)", ]
+ADH5_AC_esnps <- unique(ADH5_AC$Query) # 17
+
+ADH1A_AC.df <- ADH1A[ADH1A$snp %in% ADH1A_AC_esnps, ]; length(unique(ADH1A_AC.df$tissue)) # 15
+ADH1B_AC.df <- ADH1B[ADH1B$snp %in% ADH1B_AC_esnps, ]; length(unique(ADH1B_AC.df$tissue)) # 9
+ADH1C_AC.df <- ADH1C[ADH1C$snp %in% ADH1C_AC_esnps, ]; length(unique(ADH1C_AC.df$tissue)) # 29
+ADH4_AC.df <- ADH4[ADH4$snp %in% ADH4_AC_esnps, ]; length(unique(ADH4_AC.df$tissue)) # 20
+ADH5_AC.df <- ADH5[ADH5$snp %in% ADH5_AC_esnps, ]; length(unique(ADH5_AC.df$tissue)) # 2
+
+# create a dataframe and populate it with up- and downregulation values
+ADH_AC.df <- data.frame(ADH1A = up_down(ADH1A_AC.df), ADH1B = up_down(ADH1B_AC.df),
+                        ADH1C = up_down(ADH1C_AC.df), ADH4 = up_down(ADH4_AC.df),
+                        ADH5 = up_down(ADH5_AC.df), ADH6 = NA,
+                        row.names = rownames(t(adh_aldh_mat)))
+ADH_AC_mat <- as.matrix(ADH_AC.df)
+
+#pdf("figures/adh_ac_gene_regulation_heatmap.pdf", width = 10, height = 16)
+ac_gr <- Heatmap(ADH_AC_mat, name = "regulation",
+                 col = colors, na_col = "white",
+                 cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
+                 column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
+                 column_order = c("ADH1A", "ADH1B", "ADH1C", "ADH4", "ADH5", "ADH6"),
+                 width = unit(5, "cm"), height = unit(22, "cm"),
+                 border = TRUE, rect_gp = gpar(col = "grey"),
+                 heatmap_legend_param = list(legend_direction = "horizontal",
+                                             legend_width = unit(5, "cm")))
+draw(ac_gr, heatmap_legend_side = "bottom")
+#dev.off()
 ```
 
 
