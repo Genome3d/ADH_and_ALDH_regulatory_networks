@@ -10,7 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # install.packages("pacman")
 # load libraries
-pacman::p_load(ggplot2, ComplexHeatmap, dplyr, tidyr, reshape2, tidyverse, circlize, LDlinkR, UpSetR)
+pacman::p_load(ggplot2, ComplexHeatmap, dplyr, tidyr, reshape2, tidyverse, circlize, LDlinkR, UpSetR,
+               RIdeogram)
 
 setwd("/Users/foffa/Desktop/ADH_and_ALDH_regulatory_networks")
 ```
@@ -111,10 +112,10 @@ ALDH7A1_tissues <- unique(ALDH7A1$tissue)
 # getting gene expression for all genes across all gtex tissues
 gtex <- gzfile("data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",'rt')  
 gtex_expr <- read.table(gtex, skip = 2, sep = "\t", header = TRUE)
-adh_aldh_genes <- c("ADH1A", "ADH1B", "ADH1C", "ADH4", "ADH5", "ADH6", "ALDH16A1", "ALDH18A1",
+adh_aldh_genes <- c("ADH1A", "ADH1B", "ADH1C", "ADH4", "ADH5", "ADH6", "ADH7", "ALDH16A1", "ALDH18A1",
                     "ALDH1A1", "ALDH1A2", "ALDH1A3", "ALDH1B1", "ALDH1L1", "ALDH1L2", "ALDH2",
                     "ALDH3A1", "ALDH3A2", "ALDH3B1", "ALDH3B2", "ALDH4A1", "ALDH5A1", "ALDH6A1",
-                    "ALDH7A1")
+                    "ALDH7A1", "ALDH8A1", "ALDH9A1")
 adh_aldh_expr <- gtex_expr[gtex_expr$Description %in% adh_aldh_genes, ]
 
 # fix column names
@@ -138,7 +139,7 @@ ht_ge <- Heatmap(t(adh_aldh_mat), name = "log10(TPM+1)",
                  cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
                  column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
                  column_order = adh_aldh_genes,
-                 width = unit(14, "cm"), height = unit(22, "cm"),
+                 width = unit(15, "cm"), height = unit(22, "cm"),
                  border = TRUE, rect_gp = gpar(col = "grey"),
                  heatmap_legend_param = list(legend_direction = "horizontal",
                                              legend_width = unit(5, "cm")))
@@ -762,7 +763,7 @@ upset(fromList(list_nogw_esnps), sets = c("ALDH7A1", "ALDH6A1", "ALDH5A1", "ALDH
 #dev.off()
 ```
 
-Plot ADH eQTLs associations with alcohol dependence, alcohol use disorder and alcohol consumption traits across different tissues.
+Plot *ADH* eQTLs associations with alcohol dependence across different tissues.
 
 ```{r AD_AUD_and_AC_eQTLs_associations}
 # Alcohol dependence: ADH1A, ADH1C, ADH4, ADH5
@@ -800,86 +801,201 @@ ad_gr <- Heatmap(ADH_AD_mat, name = "regulation",
 draw(ad_gr, heatmap_legend_side = "bottom")
 #dev.off()
 
-# Alcohol use disorder: ADH1A, ADH1B, ADH1C, ADH4, ADH5, ADH6
-ADH1A_AUD <- ADH1A_df_gw[ADH1A_df_gw$GWAS_Trait=="Alcohol use disorder", ]
-ADH1A_AUD_esnps <- unique(ADH1A_AUD$Query) # 2
-ADH1B_AUD <- ADH1B_df_gw[ADH1B_df_gw$GWAS_Trait=="Alcohol use disorder", ]
-ADH1B_AUD_esnps <- unique(ADH1B_AUD$Query) # 233
-ADH1C_AUD <- ADH1C_df_gw[ADH1C_df_gw$GWAS_Trait=="Alcohol use disorder", ]
-ADH1C_AUD_esnps <- unique(ADH1C_AUD$Query) # 107
-ADH4_AUD <- ADH4_df_gw[ADH4_df_gw$GWAS_Trait=="Alcohol use disorder", ]
-ADH4_AUD_esnps <- unique(ADH4_AUD$Query) # 339
-ADH5_AUD <- ADH5_df_gw[ADH5_df_gw$GWAS_Trait=="Alcohol use disorder", ]
-ADH5_AUD_esnps <- unique(ADH5_AUD$Query) # 237
-ADH6_AUD <- ADH6_df_gw[ADH6_df_gw$GWAS_Trait=="Alcohol use disorder", ]
-ADH6_AUD_esnps <- unique(ADH6_AUD$Query) # 237
-
-ADH1A_AUD.df <- ADH1A[ADH1A$snp %in% ADH1A_AUD_esnps, ]; length(unique(ADH1A_AUD.df$tissue)) # 1
-ADH1B_AUD.df <- ADH1B[ADH1B$snp %in% ADH1B_AUD_esnps, ]; length(unique(ADH1B_AUD.df$tissue)) # 1
-ADH1C_AUD.df <- ADH1C[ADH1C$snp %in% ADH1C_AUD_esnps, ]; length(unique(ADH1C_AUD.df$tissue)) # 26
-ADH4_AUD.df <- ADH4[ADH4$snp %in% ADH4_AUD_esnps, ]; length(unique(ADH4_AUD.df$tissue)) # 17
-ADH5_AUD.df <- ADH5[ADH5$snp %in% ADH5_AUD_esnps, ]; length(unique(ADH5_AUD.df$tissue)) # 9
-ADH6_AUD.df <- ADH6[ADH6$snp %in% ADH6_AUD_esnps, ]; length(unique(ADH6_AUD.df$tissue)) # 4
-
-# create a dataframe and populate it with up- and downregulation values
-ADH_AUD.df <- data.frame(ADH1A = up_down(ADH1A_AUD.df), ADH1B = up_down(ADH1B_AUD.df),
-                         ADH1C = up_down(ADH1C_AUD.df), ADH4 = up_down(ADH4_AUD.df),
-                         ADH5 = up_down(ADH5_AUD.df), ADH6 = up_down(ADH6_AUD.df),
-                         row.names = rownames(t(adh_aldh_mat)))
-ADH_AUD_mat <- as.matrix(ADH_AUD.df)
-
-#pdf("figures/adh_aud_gene_regulation_heatmap.pdf", width = 10, height = 16)
-aud_gr <- Heatmap(ADH_AUD_mat, name = "regulation",
-                  col = colors, na_col = "white",
-                  cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
-                  column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
-                  column_order = c("ADH1A", "ADH1B", "ADH1C", "ADH4", "ADH5", "ADH6"),
-                  width = unit(5, "cm"), height = unit(22, "cm"),
-                  border = TRUE, rect_gp = gpar(col = "grey"),
-                  heatmap_legend_param = list(legend_direction = "horizontal",
-                                              legend_width = unit(5, "cm")))
-draw(aud_gr, heatmap_legend_side = "bottom")
-#dev.off()
-
-# Alcohol consumption (drinks per week): ADH1A, ADH1B, ADH1C, ADH4, ADH5
-ADH1A_AC <- ADH1A_df_gw[ADH1A_df_gw$GWAS_Trait=="Alcohol consumption (drinks per week)", ]
-ADH1A_AC_esnps <- unique(ADH1A_AC$Query) # 80
-ADH1B_AC <- ADH1B_df_gw[ADH1B_df_gw$GWAS_Trait=="Alcohol consumption (drinks per week)", ]
-ADH1B_AC_esnps <- unique(ADH1B_AC$Query) # 35
-ADH1C_AC <- ADH1C_df_gw[ADH1C_df_gw$GWAS_Trait=="Alcohol consumption (drinks per week)", ]
-ADH1C_AC_esnps <- unique(ADH1C_AC$Query) # 189
-ADH4_AC <- ADH4_df_gw[ADH4_df_gw$GWAS_Trait=="Alcohol consumption (drinks per week)", ]
-ADH4_AC_esnps <- unique(ADH4_AC$Query) # 122
-ADH5_AC <- ADH5_df_gw[ADH5_df_gw$GWAS_Trait=="Alcohol consumption (drinks per week)", ]
-ADH5_AC_esnps <- unique(ADH5_AC$Query) # 17
-
-ADH1A_AC.df <- ADH1A[ADH1A$snp %in% ADH1A_AC_esnps, ]; length(unique(ADH1A_AC.df$tissue)) # 15
-ADH1B_AC.df <- ADH1B[ADH1B$snp %in% ADH1B_AC_esnps, ]; length(unique(ADH1B_AC.df$tissue)) # 9
-ADH1C_AC.df <- ADH1C[ADH1C$snp %in% ADH1C_AC_esnps, ]; length(unique(ADH1C_AC.df$tissue)) # 29
-ADH4_AC.df <- ADH4[ADH4$snp %in% ADH4_AC_esnps, ]; length(unique(ADH4_AC.df$tissue)) # 20
-ADH5_AC.df <- ADH5[ADH5$snp %in% ADH5_AC_esnps, ]; length(unique(ADH5_AC.df$tissue)) # 2
-
-# create a dataframe and populate it with up- and downregulation values
-ADH_AC.df <- data.frame(ADH1A = up_down(ADH1A_AC.df), ADH1B = up_down(ADH1B_AC.df),
-                        ADH1C = up_down(ADH1C_AC.df), ADH4 = up_down(ADH4_AC.df),
-                        ADH5 = up_down(ADH5_AC.df), ADH6 = NA,
-                        row.names = rownames(t(adh_aldh_mat)))
-ADH_AC_mat <- as.matrix(ADH_AC.df)
-
-#pdf("figures/adh_ac_gene_regulation_heatmap.pdf", width = 10, height = 16)
-ac_gr <- Heatmap(ADH_AC_mat, name = "regulation",
+jpeg("figures/test.jpeg", width = 10, height = 16)
+Heatmap(ADH_AD_mat, name = "regulation",
                  col = colors, na_col = "white",
                  cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
                  column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
                  column_order = c("ADH1A", "ADH1B", "ADH1C", "ADH4", "ADH5", "ADH6"),
                  width = unit(5, "cm"), height = unit(22, "cm"),
+                 border = TRUE, rect_gp = gpar(col = "grey"))
+dev.off()
+```
+
+Plot *ALDH* eQTLs associations with psychiatric disorders and cognition across different tissues.
+
+```{r ALDH_eQTLs_associations_psycho}
+# ALDH2 - anxiety/tension, bipolar disorder, depression, schizophrenia, cognition
+# Anxiety/tension
+ALDH2_anx <- ALDH2_df_gw[ALDH2_df_gw$GWAS_Trait=="Anxiety/tension (special factor of neuroticism)", ]
+ALDH2_anx_esnps <- unique(ALDH2_anx$Query) # 6
+ALDH2_anx.df <- ALDH2[ALDH2$snp %in% ALDH2_anx_esnps, ]; length(unique(ALDH2_anx.df$tissue)) # 1
+ALDH_anx.df <- data.frame(ALDH2 = up_down(ALDH2_anx.df), row.names = rownames(t(adh_aldh_mat)))
+ALDH_anx_mat <- as.matrix(ALDH_anx.df)
+#pdf("figures/aldh_anx_gene_regulation_heatmap.pdf", width = 10, height = 16)
+anx_gr <- Heatmap(ALDH_anx_mat, name = "regulation",
+                  col = colors, na_col = "white",
+                  cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
+                  column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
+                  column_order = c("ALDH2"), show_row_names = FALSE,
+                  width = unit(1, "cm"), height = unit(22, "cm"),
+                  border = TRUE, rect_gp = gpar(col = "grey"),
+                  heatmap_legend_param = list(legend_direction = "horizontal",
+                                              legend_width = unit(5, "cm")))
+draw(anx_gr, heatmap_legend_side = "bottom")
+#dev.off()
+
+# Bipolar disorder
+ALDH2_bd <- ALDH2_df_gw[ALDH2_df_gw$GWAS_Trait=="Bipolar disorder (MTAG)", ]
+ALDH2_bd_esnps <- unique(ALDH2_bd$Query) # 23
+ALDH2_bd.df <- ALDH2[ALDH2$snp %in% ALDH2_bd_esnps, ]; length(unique(ALDH2_bd.df$tissue)) # 1
+ALDH_bd.df <- data.frame(ALDH2 = up_down(ALDH2_bd.df), row.names = rownames(t(adh_aldh_mat)))
+ALDH_bd_mat <- as.matrix(ALDH_bd.df)
+#pdf("figures/aldh_bd_gene_regulation_heatmap.pdf", width = 10, height = 16)
+bd_gr <- Heatmap(ALDH_bd_mat, name = "regulation",
+                 col = colors, na_col = "white",
+                 cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
+                 column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
+                 column_order = c("ALDH2"), show_row_names = FALSE,
+                 width = unit(1, "cm"), height = unit(22, "cm"),
                  border = TRUE, rect_gp = gpar(col = "grey"),
                  heatmap_legend_param = list(legend_direction = "horizontal",
                                              legend_width = unit(5, "cm")))
-draw(ac_gr, heatmap_legend_side = "bottom")
+draw(bd_gr, heatmap_legend_side = "bottom")
 #dev.off()
+
+# Depression
+ALDH2_de <- ALDH2_df_gw[ALDH2_df_gw$GWAS_Trait=="Depression", ]
+ALDH2_de_esnps <- unique(ALDH2_de$Query) # 9
+ALDH2_de.df <- ALDH2[ALDH2$snp %in% ALDH2_de_esnps, ]; length(unique(ALDH2_de.df$tissue)) # 1
+ALDH_de.df <- data.frame(ALDH2 = up_down(ALDH2_de.df), row.names = rownames(t(adh_aldh_mat)))
+ALDH_de_mat <- as.matrix(ALDH_de.df)
+#pdf("figures/aldh_de_gene_regulation_heatmap.pdf", width = 10, height = 16)
+de_gr <- Heatmap(ALDH_de_mat, name = "regulation",
+                 col = colors, na_col = "white",
+                 cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
+                 column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
+                 column_order = c("ALDH2"), show_row_names = FALSE,
+                 width = unit(1, "cm"), height = unit(22, "cm"),
+                 border = TRUE, rect_gp = gpar(col = "grey"),
+                 heatmap_legend_param = list(legend_direction = "horizontal",
+                                             legend_width = unit(5, "cm")))
+draw(de_gr, heatmap_legend_side = "bottom")
+#dev.off()
+
+# Schizophrenia
+ALDH2_sc <- ALDH2_df_gw[ALDH2_df_gw$GWAS_Trait=="Schizophrenia", ]
+ALDH2_sc_esnps <- unique(ALDH2_sc$Query) # 62
+ALDH2_sc.df <- ALDH2[ALDH2$snp %in% ALDH2_sc_esnps, ]; length(unique(ALDH2_sc.df$tissue)) # 3
+ALDH_sc.df <- data.frame(ALDH2 = up_down(ALDH2_sc.df), row.names = rownames(t(adh_aldh_mat)))
+ALDH_sc_mat <- as.matrix(ALDH_sc.df)
+#pdf("figures/aldh_sc_gene_regulation_heatmap.pdf", width = 10, height = 16)
+sc_gr <- Heatmap(ALDH_sc_mat, name = "regulation",
+                 col = colors, na_col = "white",
+                 cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
+                 column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
+                 column_order = c("ALDH2"), show_row_names = FALSE,
+                 width = unit(1, "cm"), height = unit(22, "cm"),
+                 border = TRUE, rect_gp = gpar(col = "grey"),
+                 heatmap_legend_param = list(legend_direction = "horizontal",
+                                             legend_width = unit(5, "cm")))
+draw(sc_gr, heatmap_legend_side = "bottom")
+#dev.off()
+
+# Cognition
+ALDH2_co <- ALDH2_df_gw[ALDH2_df_gw$GWAS_Trait=="Cognitive ability, years of educational attainment or schizophrenia (pleiotropy)", ]
+ALDH2_co_esnps <- unique(ALDH2_co$Query) # 23
+ALDH2_co.df <- ALDH2[ALDH2$snp %in% ALDH2_co_esnps, ]; length(unique(ALDH2_co.df$tissue)) # 1
+ALDH_co.df <- data.frame(ALDH2 = up_down(ALDH2_co.df), row.names = rownames(t(adh_aldh_mat)))
+ALDH_co_mat <- as.matrix(ALDH_co.df)
+#pdf("figures/aldh_co_gene_regulation_heatmap.pdf", width = 10, height = 16)
+co_gr <- Heatmap(ALDH_co_mat, name = "regulation",
+                 col = colors, na_col = "white",
+                 cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
+                 column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
+                 column_order = c("ALDH2"), show_row_names = FALSE,
+                 width = unit(1, "cm"), height = unit(22, "cm"),
+                 border = TRUE, rect_gp = gpar(col = "grey"),
+                 heatmap_legend_param = list(legend_direction = "horizontal",
+                                             legend_width = unit(5, "cm")))
+draw(co_gr, heatmap_legend_side = "bottom")
+#dev.off()
+
+# ALDH3A2 - ASD
+ALDH3A2_asd <- ALDH3A2_df_gw[ALDH3A2_df_gw$GWAS_Trait=="Autism spectrum disorder", ]
+ALDH3A2_asd_esnps <- unique(ALDH3A2_asd$Query) # 2
+ALDH3A2_asd.df <- ALDH3A2[ALDH3A2$snp %in% ALDH3A2_asd_esnps, ]
+length(unique(ALDH3A2_asd.df$tissue)) # 1
+ALDH3A2_asd.df <- data.frame(ALDH3A2 = up_down(ALDH3A2_asd.df), row.names = rownames(t(adh_aldh_mat)))
+ALDH3A2_asd_mat <- as.matrix(ALDH3A2_asd.df)
+#pdf("figures/aldh_asd_gene_regulation_heatmap.pdf", width = 10, height = 16)
+asd_gr <- Heatmap(ALDH3A2_asd_mat, name = "regulation",
+                  col = colors, na_col = "white",
+                  cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
+                  column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
+                  column_order = c("ALDH3A2"), show_row_names = FALSE,
+                  width = unit(1, "cm"), height = unit(22, "cm"),
+                  border = TRUE, rect_gp = gpar(col = "grey"),
+                  heatmap_legend_param = list(legend_direction = "horizontal",
+                                              legend_width = unit(5, "cm")))
+#draw(asd_gr, heatmap_legend_side = "bottom")
+dev.off()
 ```
 
+Plot *ALDH* regulatory interactions for bipolar disorder, schizophrenia and cognition in brain frontal cortex and for schizophrenia in brain amygdala.
+
+```{r brain_interactions}
+# Bipolar disorder
+ALDH2_bd <- ALDH2_df_gw[ALDH2_df_gw$GWAS_Trait=="Bipolar disorder (MTAG)", ]
+ALDH2_bd_esnps <- unique(ALDH2_bd$Query) # 23 eQTLs - trans-interchromosomal (chr15)
+ALDH2_bd.df <- ALDH2[ALDH2$snp %in% ALDH2_bd_esnps, ]
+#ALDH_bd.df <- data.frame(ALDH2 = up_down(ALDH2_bd.df), row.names = rownames(t(adh_aldh_mat)))
+#ALDH_bd_mat <- as.matrix(ALDH_bd.df)
+
+# Schizophrenia
+ALDH2_sc <- ALDH2_df_gw[ALDH2_df_gw$GWAS_Trait=="Schizophrenia", ]
+ALDH2_sc_esnps <- unique(ALDH2_sc$Query) # 62 eQTLs
+ALDH2_sc.df <- ALDH2[ALDH2$snp %in% ALDH2_sc_esnps, ]
+ALDH2_sc_fc.df <- ALDH2_sc.df[ALDH2_sc.df$tissue == "Brain_Frontal_Cortex_BA9",]
+#length(unique(ALDH2_sc_fc.df$snp)) # 23 eQTLs - trans-interchromosomal (chr15)
+ALDH2_sc_am.df <- ALDH2_sc.df[ALDH2_sc.df$tissue == "Brain_Amygdala",]
+#length(unique(ALDH2_sc_am.df$snp)) # 6 eQTLs - trans-interchromosomal (chr5)
+#ALDH_sc.df <- data.frame(ALDH2 = up_down(ALDH2_sc.df), row.names = rownames(t(adh_aldh_mat)))
+#ALDH_sc_mat <- as.matrix(ALDH_sc.df)
+#writeLines(ALDH2_sc_fc.df$snp, con = "results/ALDH2_eQTLs/ALDH2_eQTLs_FC_BD-SCZ-Cognition.txt", sep = "\n")
+#writeLines(ALDH2_sc_am.df$snp, con = "results/ALDH2_eQTLs/ALDH2_eQTLs_Am_SCZ.txt", sep = "\n")
+
+# Cognition
+ALDH2_co <- ALDH2_df_gw[ALDH2_df_gw$GWAS_Trait=="Cognitive ability, years of educational attainment or schizophrenia (pleiotropy)", ]
+ALDH2_co_esnps <- unique(ALDH2_co$Query) # 23
+ALDH2_co.df <- ALDH2[ALDH2$snp %in% ALDH2_co_esnps, ]
+#length(unique(ALDH2_co.df$tissue)) # 1
+#ALDH_co.df <- data.frame(ALDH2 = up_down(ALDH2_co.df), row.names = rownames(t(adh_aldh_mat)))
+#ALDH_co_mat <- as.matrix(ALDH_co.df)
+```
+
+Ploting the chromosome and *ADH* and *ALDH* genes. Check out this post --> https://cran.r-project.org/web/packages/RIdeogram/vignettes/RIdeogram.html
+
+```{r RIdeogram}
+data(human_karyotype, package="RIdeogram")
+data(gene_density, package="RIdeogram")
+
+genes_ann <- read.table("data/ADH_and_ALDH_genes.txt", sep = "\t", header = T, stringsAsFactors = F)
+#ad_esnps <- readLines("hapter_4/AD_eqtl_snps.txt")
+#eqtls <- subset(ad_ann, ad_ann$SNP %in% ad_esnps)
+
+# in your terminal: ulimit -s; ulimit -s 16384; R --slave -e 'Cstack_info()["size"]'
+ideogram(karyotype = human_karyotype, overlaid = gene_density, label = genes_ann, label_type = "marker", colorset1 = c("white", "#D0D0D0", "black"))
+convertSVG("chromosome.svg", device = "png")
+```
+
+To get rsIDs for ALDH2 eQTLs associated with BD, SCZ and Cognition in frontal cortex and amygdala, we saved the SNPs into the txt files:
+`writeLines(ALDH2_sc_fc.df$snp, con = "results/ALDH2_eQTLs/ALDH2_eQTLs_FC_BD-SCZ-Cognition.txt", sep = "\n")` and 
+`writeLines(ALDH2_sc_am.df$snp, con = "results/ALDH2_eQTLs/ALDH2_eQTLs_Am_SCZ.txt", sep = "\n")`
+
+To get genomic positions for GWAS SNPs according to genome GRCh38p7 build 151, we downloaded dbSNP bed files for each chromosome from [dbSNP ftp site](ftp://ftp.ncbi.nih.gov/snp/organisms/human_9606_b151_GRCh38p7/BED/), concatenated them and run `bash scripts/rsID2Bed.sh results/ALDH2_eQTLs/ALDH2_eQTLs_FC_BD-SCZ-Cognition.txt` and `bash scripts/rsID2Bed.sh results/ALDH2_eQTLs/ALDH2_eQTLs_Am_SCZ.txt` to convert SNP rsIDs to BED files.
+
+Figure 3.14 is made using [pygenometracks](https://github.com/deeptools/pyGenomeTracks):
+`conda activate pygenometracks`
+
+To plot the *ALDH2* gene:
+`pyGenomeTracks --tracks aldh2_gtf.ini --region 12:111760000-111830000 --trackLabelFraction 0.2 --width 25 --dpi 300 -o ALDH2.png`
+
+To plot *ALDH2* eQTLs in frontal cortex:
+`pyGenomeTracks --tracks aldh2_eqtl_fc_gtf.ini --region 15:84394500-84594500 --trackLabelFraction 0.2 --width 25 --dpi 300 -o ALDH2_eQTL_FC.png`
+
+To plot *ALDH2* eQTLs in amygdala:
+`pyGenomeTracks --tracks aldh2_eqtl_am_gtf.ini --region 5:127700000-128050000 --trackLabelFraction 0.2 --width 25 --dpi 300 -o ALDH2_eQTL_Am.png`
 
 
 

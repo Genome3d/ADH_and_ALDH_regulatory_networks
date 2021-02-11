@@ -1,0 +1,107 @@
+Adult body size
+Alcohol consumption
+Alcohol consumption (drinks per week)
+Alcohol consumption (drinks per week) (MTAG)
+Alcohol consumption in current drinkers
+Alcohol dependence
+Alcohol use disorder
+Alcohol use disorder (consumption score)
+Apolipoprotein A1 levels
+Balding type 1
+Bitter alcoholic beverage consumption
+Blood protein levels
+C-reactive protein levels
+Electrocardiogram morphology (amplitude at temporal datapoints)
+Estimated glomerular filtration rate
+FEV1
+Glycine levels
+HDL cholesterol levels
+Household income (MTAG)
+Intelligence
+Lung function (FVC)
+Male-pattern baldness
+Neutrophil count
+Peak expiratory flow
+Plasma free amino acid levels
+Plasma free amino acid levels (adjusted for twenty other PFAAs)
+Problematic alcohol use
+Problematic alcohol use (MTAG)
+Red cell distribution width
+Serum 25-Hydroxyvitamin D levels
+Systolic blood pressure
+Total cholesterol levels
+Waist circumference adjusted for body mass index
+Waist-hip ratio
+White blood cell count
+Body fat distribution (leg fat ratio)
+Body fat distribution (trunk fat ratio)
+Eosinophil counts
+Factor VII activity
+Factor VII activity or levels
+Fat-free mass
+Height
+Hip circumference adjusted for BMI
+Lymphocyte counts
+Lymphocyte percentage of white cells
+Mean platelet volume
+Neutrophil percentage of white cells
+Platelet count
+Sex hormone-binding globulin levels
+Sex hormone-binding globulin levels adjusted for BMI
+Sleep duration
+Total testosterone levels
+Triglyceride levels
+Triglycerides
+Body mass index
+Hematocrit
+Hemoglobin concentration
+High light scatter reticulocyte count
+High light scatter reticulocyte percentage of red cells
+Monocyte count
+Monocyte percentage of white cells
+Prostate cancer
+Pulse pressure
+Reticulocyte fraction of red cells
+Adolescent idiopathic scoliosis
+Apolipoprotein B levels
+Celiac disease
+Chin dimples
+Cholesterol, total
+Colorectal cancer or advanced adenoma
+Diverticular disease
+Educational attainment (MTAG)
+Educational attainment (years of education)
+Heel bone mineral density
+Hemoglobin
+Hemoglobin levels
+Highest math class taken (MTAG)
+Hypertension
+LDL cholesterol levels x short total sleep time interaction (2df test)
+Leisure sedentary behaviour (television watching)
+Lung function (FEV1/FVC)
+Male puberty timing (age at voice breaking MTAG)
+Mean corpuscular hemoglobin
+Menarche (age at onset)
+Plateletcrit
+Primary sclerosing cholangitis
+Self-reported math ability
+Smoking initiation (ever regular vs never regular) (MTAG)
+Type 2 diabetes
+Ulcerative colitis
+Vertical cup-disc ratio (multi-trait analysis)
+Waist-to-hip ratio adjusted for BMI
+Ankylosing spondylitis
+Brain region volumes
+Chronic inflammatory diseases (ankylosing spondylitis, Crohn's disease, psoriasis, primary sclerosing cholangitis, ulcerative colitis) (pleiotropy)
+Crohn's disease
+Inflammatory bowel disease
+Macular thickness
+Multiple sclerosis
+Post bronchodilator FEV1/FVC ratio
+Urate levels
+Atopic asthma
+Juvenile idiopathic arthritis (oligoarticular or rheumatoid factor-negative polyarticular)
+Number of sexual partners
+Refractive error
+Risk-taking tendency (4-domain principal component model)
+Systemic lupus erythematosus

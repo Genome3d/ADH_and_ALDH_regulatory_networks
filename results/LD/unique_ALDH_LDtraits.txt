@@ -1,0 +1,302 @@
+Apolipoprotein B levels
+Aspartate aminotransferase levels
+Autoimmune traits
+Blood protein levels
+Eosinophil counts
+Eosinophil percentage of white cells
+Hematological and biochemical traits
+Hypothyroidism
+Lymphocyte percentage of white cells
+Mean reticulocyte volume
+Medication use (thyroid preparations)
+Metabolite levels
+Neutrophil count
+Neutrophil percentage of white cells
+Non-albumin protein levels
+Red blood cell count
+Red cell distribution width
+Serum albumin level
+Serum metabolite ratios in chronic kidney disease
+Serum total protein level
+Sex hormone-binding globulin levels adjusted for BMI
+Sphingolipid levels
+Sphingomyelin levels
+Total cholesterol levels
+Total testosterone levels
+Triglyceride levels
+Type 2 diabetes
+White blood cell count
+Adventurousness
+Apolipoprotein A1 levels
+Blood metabolite levels
+Diabetic retinopathy
+Electrocardiogram morphology (amplitude at temporal datapoints)
+Estimated glomerular filtration rate
+General factor of neuroticism
+Heel bone mineral density
+Height
+Immature fraction of reticulocytes
+Lymphocyte counts
+Menarche (age at onset)
+Monocyte count
+Neuroticism
+Nonatopic asthma or type 2 diabetes
+Platelet count
+Plateletcrit
+PR interval
+Pulse pressure
+Self-reported math ability
+Systolic blood pressure x alcohol consumption (light vs heavy) interaction (2df test)
+Well-being spectrum (multivariate analysis)
+Alcohol consumption (drinkers vs non-drinkers)
+Glycine levels
+Mean corpuscular hemoglobin
+Mean corpuscular volume
+Plasma homocysteine levels (post-methionine load test)
+Serum metabolite levels
+Serum metabolite levels (CMS)
+Bitter non-alcoholic beverage consumption
+Chronotype
+Coffee consumption
+Cutaneous malignant melanoma
+Cutaneous squamous cell carcinoma
+Fat body mass
+Hemoglobin
+Keratinocyte cancer (MTAG)
+Lung function (FEV1)
+Lung function (FVC)
+Morning person
+Neurological blood protein biomarker levels
+Nevus count or cutaneous melanoma
+Serum 25-Hydroxyvitamin D levels
+Acne (severe)
+Adolescent idiopathic scoliosis
+Adult body size
+Allergic disease (asthma, hay fever and/or eczema) (age of onset)
+Allergic disease (asthma, hay fever and/or eczema) (multivariate analysis)
+Allergic disease (asthma, hay fever or eczema)
+Allergic rhinitis
+Anxiety/tension (special factor of neuroticism)
+Appendicular lean mass
+Arthritis (juvenile idiopathic)
+Asthma
+Asthma (childhood onset)
+Atopic asthma
+Autoimmune thyroid disease
+Basophil count
+Beta-2 microglubulin plasma levels
+Bioavailable testosterone levels
+Bipolar disorder (MTAG)
+Bipolar disorder lithium response (categorical) or schizophrenia
+Bipolar disorder or major depressive disorder
+Birth weight
+Blond vs. brown/black hair color
+Blood pressure
+Body fat distribution (leg fat ratio)
+Body fat distribution (trunk fat ratio)
+Body mass index
+Bone mineral density (paediatric, lower limb)
+Bone mineral density (paediatric, total body less head)
+Brain region volumes
+C-C motif chemokine 3 levels
+C-reactive protein
+C-reactive protein levels
+C-reactive protein levels or LDL-cholesterol levels (pleiotropy)
+C-reactive protein levels or total cholesterol levels (pleiotropy)
+C-X-C motif chemokine 16 levels
+Cardiovascular disease
+Carotid intima media thickness
+Celiac disease
+Celiac disease and Rheumatoid arthritis
+Celiac disease or Rheumatoid arthritis
+Chloride levels
+Cholesterol, total
+Chronic inflammatory diseases (ankylosing spondylitis, Crohn's disease, psoriasis, primary sclerosing cholangitis, ulcerative colitis) (pleiotropy)
+Chronic kidney disease
+Cognitive ability, years of educational attainment or schizophrenia (pleiotropy)
+Cognitive performance
+Cognitive performance (MTAG)
+Colorectal cancer
+Colorectal cancer or advanced adenoma
+Colorectal or endometrial cancer
+Coronary artery disease
+Coronary artery disease (myocardial infarction, percutaneous transluminal coronary angioplasty, coronary artery bypass grafting, angina or chromic ischemic heart disease)
+Coronary artery disease or ischemic stroke
+Coronary artery disease or large artery stroke
+Depressed affect
+Depression
+Depressive symptoms
+Diastolic blood pressure
+Diastolic blood pressure (cigarette smoking interaction)
+Diastolic blood pressure x alcohol consumption (light vs heavy) interaction (2df test)
+Diastolic blood pressure x alcohol consumption interaction (2df test)
+Diastolic blood pressure x smoking status (current vs non-current) interaction (2df test)
+Diastolic blood pressure x smoking status (ever vs never) interaction (2df test)
+Eczema
+Educational attainment (MTAG)
+Educational attainment (years of education)
+Endometrial cancer
+Endometrial cancer (endometrioid histology)
+Eosinophil percentage of granulocytes
+Experiencing mood swings
+Fibrinogen levels
+Fibrosis-4 index in high alcohol intake
+Forns index in high alcohol intake
+Gallstone disease
+Gamma glutamyl transferase levels
+Gastric cancer
+Gastroesophageal reflux disease
+Glaucoma (multi-trait analysis)
+Glaucoma (primary open-angle)
+Glycated hemoglobin levels
+Gout
+Granulocyte count
+Graves' disease
+Hair color
+Hay fever and/or eczema
+HDL cholesterol
+HDL cholesterol levels
+HDL cholesterol levels x alcohol consumption (drinkers vs non-drinkers) interaction (2df)
+Hematocrit
+Hematological parameters
+Hemoglobin concentration
+Hemoglobin levels
+High density lipoprotein cholesterol levels
+High light scatter reticulocyte count
+High light scatter reticulocyte percentage of red cells
+Highest math class taken
+Highest math class taken (MTAG)
+Homocysteine levels
+Hypertension
+Idiopathic osteonecrosis of the femoral head
+IgA levels
+Inflammatory bowel disease
+Insulinogenic index
+Interleukin-27 levels
+Intraocular pressure
+Ischemic stroke
+Ischemic stroke (small artery occlusion)
+Juvenile idiopathic arthritis (oligoarticular or rheumatoid factor-negative polyarticular)
+Latent autoimmune diabetes vs. type 2 diabetes
+LDL cholesterol
+LDL cholesterol levels
+LDL cholesterol levels in current drinkers
+LDL cholesterol levels x alcohol consumption (drinkers vs non-drinkers) interaction (2df)
+LDL cholesterol levels x alcohol consumption (regular vs non-regular drinkers) interaction (2df)
+LDL cholesterol levels x short total sleep time interaction (2df test)
+LDL cholesterol x physical activity interaction (2df test)
+Left ventricle diastolic internal dimension
+Left ventricular end-diastolic volume
+Lifetime smoking index
+Low density lipoprotein cholesterol levels
+Lung function (FEV1/FVC)
+Mean arterial pressure
+Mean arterial pressure x alcohol consumption (light vs heavy) interaction (2df test)
+Mean arterial pressure x alcohol consumption interaction (2df test)
+Mean corpuscular hemoglobin concentration
+Mean platelet volume
+Mean spheric corpuscular volume
+Medication use (agents acting on the renin-angiotensin system)
+Medication use (beta blocking agents)
+Medication use (calcium channel blockers)
+Medication use (diuretics)
+Medication use (HMG CoA reductase inhibitors)
+Metabolic traits
+Moyamoya disease
+Multiple sclerosis
+Myeloid white cell count
+Myeloproliferative neoplasms
+Myocardial infarction
+Neutrophil percentage of granulocytes
+Number of sexual partners
+Offspring birth weight
+Oral cavity and pharyngeal cancer
+Pappalysin-1 levels
+Parental lifespan
+Parental longevity (combined parental age at death)
+Parental longevity (combined parental attained age, Martingale residuals)
+Parental longevity (father's age at death or father's attained age)
+Parental longevity (father's age at death)
+Parental longevity (father's attained age)
+Peripheral artery disease
+Platelet distribution width
+Primary biliary cholangitis
+Primary biliary cirrhosis
+Primary sclerosing cholangitis
+Psoriasis
+Reaction time
+Red blood cell traits
+Refractive error
+Renal overload gout
+Renal underexcretion gout
+Reticulocyte count
+Reticulocyte fraction of red cells
+Retinal vascular caliber
+Rheumatoid arthritis
+Sarcoidosis
+Schizophrenia
+Schizophrenia (MTAG)
+Self-reported math ability (MTAG)
+Serum alpha1-antitrypsin levels
+Serum uric acid levels
+Sex hormone-binding globulin levels
+Small vessel stroke (CCSp classification)
+Smoking cessation (MTAG)
+Smoking initiation (ever regular vs never regular)
+Smoking status
+Smoking status (ever vs never smokers)
+Spherical equivalent
+Spherical equivalent or myopia (age of diagnosis)
+Stroke
+Subcortical volume (MOSTest)
+Subjective well-being (MTAG)
+Sum basophil neutrophil counts
+Sum eosinophil basophil counts
+Sum neutrophil eosinophil counts
+Systemic lupus erythematosus
+Systemic seropositive rheumatic diseases (Systemic sclerosis or systemic lupus erythematosus or rheumatoid arthritis or idiopathic inflammatory myopathies)
+Systolic blood pressure
+Systolic blood pressure (cigarette smoking interaction)
+Systolic blood pressure x alcohol consumption interaction (2df test)
+Systolic blood pressure x smoking status (current vs non-current) interaction (2df test)
+Systolic blood pressure x smoking status (ever vs never) interaction (2df test)
+Tetralogy of Fallot
+Thyroid peroxidase antibody positivity
+Thyroid stimulating hormone levels
+Tonsillectomy
+Triglycerides
+Tumor necrosis factor levels
+Tumor necrosis factor receptor 2 levels
+Type 1 diabetes
+Type 2 diabetes (adjusted for BMI)
+Urate levels
+Vitiligo
+Waist circumference adjusted for body mass index
+Waist-hip ratio
+White blood cell count (basophil)
+White matter microstructure (mode of anisotropy)
+Autism spectrum disorder
+Autism spectrum disorder (MTAG)
+General cognitive ability
+IgG glycosylation
+Waist-to-hip ratio adjusted for BMI
+Liver enzyme levels
+Liver enzyme levels (alkaline phosphatase)
+Loneliness
+Neurociticism
+Sensitivity to environmental stress and adversity
+Serum alkaline phosphatase levels
+Smoking initiation (ever regular vs never regular) (MTAG)
+Type 1 diabetes and autoimmune thyroid diseases
+Body fat distribution (arm fat ratio)
+Brain morphology (min-P)
+Macular thickness
+Morningness
+Subcortical volume (min-P)
+White matter microstructure (axial diusivities)
+Extremely high intelligence
+Intelligence
+Intelligence (MTAG)
+Osteoporosis
+Resting heart rate
+Vigorous physical activity

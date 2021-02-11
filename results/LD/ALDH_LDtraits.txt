@@ -1,0 +1,401 @@
+value	GWAS_Trait	gene
+Acne (severe)	6	ALDH2
+Adolescent idiopathic scoliosis	93	ALDH2
+Adult body size	8	ALDH2
+Adventurousness	2	ALDH18A1
+Alcohol consumption (drinkers vs non-drinkers)	1	ALDH1B1
+"Allergic disease (asthma, hay fever and/or eczema) (age of onset)"	10	ALDH2
+"Allergic disease (asthma, hay fever and/or eczema) (multivariate analysis)"	10	ALDH2
+"Allergic disease (asthma, hay fever or eczema)"	20	ALDH2
+Allergic rhinitis	20	ALDH2
+Anxiety/tension (special factor of neuroticism)	6	ALDH2
+Apolipoprotein A1 levels	2	ALDH18A1
+Apolipoprotein A1 levels	19	ALDH2
+Apolipoprotein B levels	2	ALDH16A1
+Apolipoprotein B levels	11	ALDH2
+Appendicular lean mass	33	ALDH2
+Arthritis (juvenile idiopathic)	10	ALDH2
+Aspartate aminotransferase levels	3	ALDH16A1
+Asthma	24	ALDH2
+Asthma (childhood onset)	16	ALDH2
+Atopic asthma	9	ALDH2
+Autism spectrum disorder	4	ALDH3A2
+Autism spectrum disorder (MTAG)	2	ALDH3A2
+Autoimmune thyroid disease	14	ALDH2
+Autoimmune traits	2	ALDH16A1
+Autoimmune traits	14	ALDH2
+Basophil count	35	ALDH2
+Beta-2 microglubulin plasma levels	11	ALDH2
+Bioavailable testosterone levels	1	ALDH2
+Bipolar disorder (MTAG)	23	ALDH2
+Bipolar disorder lithium response (categorical) or schizophrenia	23	ALDH2
+Bipolar disorder or major depressive disorder	1	ALDH2
+Birth weight	21	ALDH2
+Bitter non-alcoholic beverage consumption	24	ALDH1L2
+Blond vs. brown/black hair color	104	ALDH2
+Blood metabolite levels	102	ALDH18A1
+Blood metabolite levels	11	ALDH2
+Blood pressure	9	ALDH2
+Blood protein levels	1	ALDH16A1
+Blood protein levels	204	ALDH18A1
+Blood protein levels	15	ALDH1L2
+Blood protein levels	21	ALDH2
+Blood protein levels	2	ALDH3A1
+Blood protein levels	36	ALDH3A2
+Blood protein levels	98	ALDH6A1
+Body fat distribution (arm fat ratio)	3	ALDH6A1
+Body fat distribution (leg fat ratio)	2	ALDH2
+Body fat distribution (trunk fat ratio)	2	ALDH2
+Body mass index	54	ALDH2
+Body mass index	1	ALDH3A2
+Body mass index	3	ALDH6A1
+"Bone mineral density (paediatric, lower limb)"	1	ALDH2
+"Bone mineral density (paediatric, total body less head)"	1	ALDH2
+Brain morphology (min-P)	2	ALDH6A1
+Brain region volumes	3	ALDH2
+Brain region volumes	2	ALDH6A1
+C-C motif chemokine 3 levels	11	ALDH2
+C-reactive protein	2	ALDH2
+C-reactive protein levels	13	ALDH2
+C-reactive protein levels or LDL-cholesterol levels (pleiotropy)	61	ALDH2
+C-reactive protein levels or total cholesterol levels (pleiotropy)	1	ALDH2
+C-X-C motif chemokine 16 levels	9	ALDH2
+Cardiovascular disease	21	ALDH2
+Carotid intima media thickness	3	ALDH2
+Celiac disease	31	ALDH2
+Celiac disease and Rheumatoid arthritis	10	ALDH2
+Celiac disease or Rheumatoid arthritis	9	ALDH2
+Chloride levels	9	ALDH2
+"Cholesterol, total"	30	ALDH2
+"Chronic inflammatory diseases (ankylosing spondylitis, Crohn's disease, psoriasis, primary sclerosing cholangitis, ulcerative colitis) (pleiotropy)"	11	ALDH2
+Chronic kidney disease	9	ALDH2
+Chronotype	15	ALDH1L2
+Chronotype	45	ALDH2
+Chronotype	34	ALDH6A1
+Chronotype	1	ALDH7A1
+Coffee consumption	1	ALDH1L2
+"Cognitive ability, years of educational attainment or schizophrenia (pleiotropy)"	23	ALDH2
+Cognitive performance	1	ALDH2
+Cognitive performance (MTAG)	1	ALDH2
+Colorectal cancer	43	ALDH2
+Colorectal cancer or advanced adenoma	10	ALDH2
+Colorectal or endometrial cancer	11	ALDH2
+Coronary artery disease	148	ALDH2
+"Coronary artery disease (myocardial infarction, percutaneous transluminal coronary angioplasty, coronary artery bypass grafting, angina or chromic ischemic heart disease)"	21	ALDH2
+Coronary artery disease or ischemic stroke	6	ALDH2
+Coronary artery disease or large artery stroke	6	ALDH2
+Cutaneous malignant melanoma	24	ALDH1L2
+Cutaneous squamous cell carcinoma	24	ALDH1L2
+Depressed affect	33	ALDH2
+Depression	9	ALDH2
+Depressive symptoms	9	ALDH2
+Depressive symptoms	5	ALDH5A1
+Diabetic retinopathy	1	ALDH18A1
+Diastolic blood pressure	197	ALDH2
+Diastolic blood pressure	1	ALDH5A1
+Diastolic blood pressure (cigarette smoking interaction)	11	ALDH2
+Diastolic blood pressure x alcohol consumption (light vs heavy) interaction (2df test)	35	ALDH2
+Diastolic blood pressure x alcohol consumption interaction (2df test)	103	ALDH2
+Diastolic blood pressure x smoking status (current vs non-current) interaction (2df test)	54	ALDH2
+Diastolic blood pressure x smoking status (ever vs never) interaction (2df test)	52	ALDH2
+Eczema	9	ALDH2
+Educational attainment (MTAG)	8	ALDH2
+Educational attainment (MTAG)	34	ALDH6A1
+Educational attainment (years of education)	1	ALDH2
+Educational attainment (years of education)	34	ALDH6A1
+Electrocardiogram morphology (amplitude at temporal datapoints)	918	ALDH18A1
+Endometrial cancer	11	ALDH2
+Endometrial cancer (endometrioid histology)	11	ALDH2
+Eosinophil counts	15	ALDH16A1
+Eosinophil counts	62	ALDH2
+Eosinophil counts	1	ALDH3A2
+Eosinophil percentage of granulocytes	10	ALDH2
+Eosinophil percentage of white cells	1	ALDH16A1
+Eosinophil percentage of white cells	25	ALDH2
+Estimated glomerular filtration rate	2	ALDH18A1
+Estimated glomerular filtration rate	8	ALDH1L1
+Estimated glomerular filtration rate	56	ALDH2
+Estimated glomerular filtration rate	1	ALDH5A1
+Experiencing mood swings	66	ALDH2
+Extremely high intelligence	1	ALDH7A1
+Fat body mass	24	ALDH1L2
+Fibrinogen levels	23	ALDH2
+Fibrosis-4 index in high alcohol intake	1	ALDH2
+Forns index in high alcohol intake	1	ALDH2
+Gallstone disease	9	ALDH2
+Gamma glutamyl transferase levels	9	ALDH2
+Gastric cancer	25	ALDH2
+Gastroesophageal reflux disease	10	ALDH2
+General cognitive ability	2	ALDH3A2
+General factor of neuroticism	1	ALDH18A1
+General factor of neuroticism	8	ALDH2
+Glaucoma (multi-trait analysis)	11	ALDH2
+Glaucoma (primary open-angle)	11	ALDH2
+Glycated hemoglobin levels	10	ALDH2
+Glycine levels	32	ALDH1L1
+Gout	7	ALDH2
+Granulocyte count	15	ALDH2
+Graves' disease	3	ALDH2
+Hair color	1	ALDH2
+Hay fever and/or eczema	9	ALDH2
+HDL cholesterol	10	ALDH2
+HDL cholesterol levels	20	ALDH2
+HDL cholesterol levels x alcohol consumption (drinkers vs non-drinkers) interaction (2df)	21	ALDH2
+Heel bone mineral density	3	ALDH18A1
+Heel bone mineral density	21	ALDH1L2
+Heel bone mineral density	9	ALDH5A1
+Height	5	ALDH18A1
+Height	4	ALDH1A1
+Height	3	ALDH1L2
+Height	28	ALDH2
+Height	5	ALDH5A1
+Height	26	ALDH6A1
+Hematocrit	56	ALDH2
+Hematological and biochemical traits	3	ALDH16A1
+Hematological and biochemical traits	46	ALDH5A1
+Hematological parameters	8	ALDH2
+Hemoglobin	12	ALDH1L2
+Hemoglobin	62	ALDH2
+Hemoglobin concentration	33	ALDH2
+Hemoglobin levels	333	ALDH2
+High density lipoprotein cholesterol levels	22	ALDH2
+High light scatter reticulocyte count	276	ALDH2
+High light scatter reticulocyte count	1	ALDH5A1
+High light scatter reticulocyte percentage of red cells	281	ALDH2
+High light scatter reticulocyte percentage of red cells	1	ALDH5A1
+Highest math class taken	35	ALDH2
+Highest math class taken (MTAG)	34	ALDH2
+Highest math class taken (MTAG)	34	ALDH6A1
+Homocysteine levels	10	ALDH2
+Hypertension	31	ALDH2
+Hypothyroidism	2	ALDH16A1
+Hypothyroidism	45	ALDH2
+Idiopathic osteonecrosis of the femoral head	7	ALDH2
+IgA levels	11	ALDH2
+IgG glycosylation	4	ALDH3B1
+Immature fraction of reticulocytes	1	ALDH18A1
+Immature fraction of reticulocytes	225	ALDH2
+Inflammatory bowel disease	29	ALDH2
+Insulinogenic index	10	ALDH2
+Intelligence	2	ALDH7A1
+Intelligence (MTAG)	1	ALDH7A1
+Interleukin-27 levels	9	ALDH2
+Intraocular pressure	15	ALDH2
+Intraocular pressure	10	ALDH3A1
+Intraocular pressure	10	ALDH3A2
+Ischemic stroke	36	ALDH2
+Ischemic stroke (small artery occlusion)	6	ALDH2
+Juvenile idiopathic arthritis (oligoarticular or rheumatoid factor-negative polyarticular)	11	ALDH2
+Keratinocyte cancer (MTAG)	1	ALDH1L2
+Latent autoimmune diabetes vs. type 2 diabetes	11	ALDH2
+LDL cholesterol	58	ALDH2
+LDL cholesterol levels	49	ALDH2
+LDL cholesterol levels in current drinkers	20	ALDH2
+LDL cholesterol levels x alcohol consumption (drinkers vs non-drinkers) interaction (2df)	42	ALDH2
+LDL cholesterol levels x alcohol consumption (regular vs non-regular drinkers) interaction (2df)	42	ALDH2
+LDL cholesterol levels x short total sleep time interaction (2df test)	1	ALDH2
+LDL cholesterol x physical activity interaction (2df test)	10	ALDH2
+Left ventricle diastolic internal dimension	10	ALDH2
+Left ventricular end-diastolic volume	11	ALDH2
+Lifetime smoking index	1	ALDH2
+Liver enzyme levels	37	ALDH5A1
+Liver enzyme levels (alkaline phosphatase)	25	ALDH5A1
+Loneliness	5	ALDH5A1
+Low density lipoprotein cholesterol levels	81	ALDH2
+Lung function (FEV1)	1	ALDH1L2
+Lung function (FEV1/FVC)	2	ALDH2
+Lung function (FEV1/FVC)	19	ALDH7A1
+Lung function (FVC)	1	ALDH1L2
+Lymphocyte counts	3	ALDH18A1
+Lymphocyte counts	45	ALDH2
+Lymphocyte percentage of white cells	2	ALDH16A1
+Lymphocyte percentage of white cells	19	ALDH2
+Macular thickness	169	ALDH6A1
+Mean arterial pressure	377	ALDH2
+Mean arterial pressure x alcohol consumption (light vs heavy) interaction (2df test)	17	ALDH2
+Mean arterial pressure x alcohol consumption interaction (2df test)	107	ALDH2
+Mean corpuscular hemoglobin	8	ALDH1L1
+Mean corpuscular hemoglobin	276	ALDH2
+Mean corpuscular hemoglobin	7	ALDH3A1
+Mean corpuscular hemoglobin	7	ALDH3A2
+Mean corpuscular hemoglobin	209	ALDH6A1
+Mean corpuscular hemoglobin concentration	428	ALDH2
+Mean corpuscular volume	16	ALDH1L1
+Mean corpuscular volume	27	ALDH2
+Mean corpuscular volume	70	ALDH6A1
+Mean platelet volume	253	ALDH2
+Mean platelet volume	37	ALDH3A1
+Mean platelet volume	38	ALDH3A2
+Mean reticulocyte volume	1	ALDH16A1
+Mean reticulocyte volume	1	ALDH1L2
+Mean reticulocyte volume	48	ALDH2
+Mean reticulocyte volume	38	ALDH6A1
+Mean spheric corpuscular volume	319	ALDH2
+Mean spheric corpuscular volume	38	ALDH6A1
+Medication use (agents acting on the renin-angiotensin system)	19	ALDH2
+Medication use (beta blocking agents)	19	ALDH2
+Medication use (calcium channel blockers)	19	ALDH2
+Medication use (calcium channel blockers)	1	ALDH7A1
+Medication use (diuretics)	19	ALDH2
+Medication use (HMG CoA reductase inhibitors)	9	ALDH2
+Medication use (thyroid preparations)	2	ALDH16A1
+Medication use (thyroid preparations)	22	ALDH2
+Menarche (age at onset)	2	ALDH18A1
+Metabolic traits	10	ALDH2
+Metabolite levels	3	ALDH16A1
+Metabolite levels	9	ALDH2
+Monocyte count	1	ALDH18A1
+Monocyte count	43	ALDH2
+Morning person	15	ALDH1L2
+Morning person	45	ALDH2
+Morningness	34	ALDH6A1
+Moyamoya disease	3	ALDH2
+Multiple sclerosis	12	ALDH2
+Myeloid white cell count	15	ALDH2
+Myeloproliferative neoplasms	11	ALDH2
+Myocardial infarction	9	ALDH2
+Neurociticism	6	ALDH5A1
+Neurological blood protein biomarker levels	24	ALDH1L2
+Neuroticism	1	ALDH18A1
+Neuroticism	6	ALDH2
+Neuroticism	8	ALDH5A1
+Neutrophil count	4	ALDH16A1
+Neutrophil count	2	ALDH18A1
+Neutrophil count	64	ALDH2
+Neutrophil percentage of granulocytes	10	ALDH2
+Neutrophil percentage of white cells	2	ALDH16A1
+Neutrophil percentage of white cells	19	ALDH2
+Nevus count or cutaneous melanoma	24	ALDH1L2
+Non-albumin protein levels	3	ALDH16A1
+Nonatopic asthma or type 2 diabetes	3	ALDH18A1
+Number of sexual partners	2	ALDH2
+Offspring birth weight	11	ALDH2
+Oral cavity and pharyngeal cancer	44	ALDH2
+Osteoporosis	36	ALDH7A1
+Pappalysin-1 levels	11	ALDH2
+Parental lifespan	6	ALDH2
+Parental longevity (combined parental age at death)	11	ALDH2
+"Parental longevity (combined parental attained age, Martingale residuals)"	55	ALDH2
+Parental longevity (father's age at death or father's attained age)	10	ALDH2
+Parental longevity (father's age at death)	11	ALDH2
+Parental longevity (father's attained age)	11	ALDH2
+Peripheral artery disease	8	ALDH2
+Plasma homocysteine levels (post-methionine load test)	8	ALDH1L1
+Platelet count	235	ALDH18A1
+Platelet count	722	ALDH2
+Platelet distribution width	89	ALDH2
+Plateletcrit	3	ALDH18A1
+Plateletcrit	48	ALDH2
+PR interval	204	ALDH18A1
+Primary biliary cholangitis	6	ALDH2
+Primary biliary cirrhosis	6	ALDH2
+Primary sclerosing cholangitis	22	ALDH2
+Psoriasis	6	ALDH2
+Pulse pressure	12	ALDH18A1
+Pulse pressure	1	ALDH2
+Reaction time	222	ALDH2
+Red blood cell count	3	ALDH16A1
+Red blood cell count	55	ALDH2
+Red blood cell count	76	ALDH6A1
+Red blood cell traits	11	ALDH2
+Red cell distribution width	1	ALDH16A1
+Red cell distribution width	747	ALDH2
+Red cell distribution width	2	ALDH3A1
+Red cell distribution width	394	ALDH6A1
+Refractive error	6	ALDH2
+Renal overload gout	7	ALDH2
+Renal underexcretion gout	7	ALDH2
+Resting heart rate	2	ALDH7A1
+Reticulocyte count	439	ALDH2
+Reticulocyte count	1	ALDH5A1
+Reticulocyte fraction of red cells	438	ALDH2
+Reticulocyte fraction of red cells	1	ALDH5A1
+Retinal vascular caliber	10	ALDH2
+Rheumatoid arthritis	9	ALDH2
+Sarcoidosis	9	ALDH2
+Schizophrenia	295	ALDH2
+Schizophrenia (MTAG)	23	ALDH2
+Self-reported math ability	1	ALDH18A1
+Self-reported math ability	34	ALDH2
+Self-reported math ability (MTAG)	35	ALDH2
+Sensitivity to environmental stress and adversity	1	ALDH5A1
+Serum 25-Hydroxyvitamin D levels	24	ALDH1L2
+Serum albumin level	6	ALDH16A1
+Serum alkaline phosphatase levels	154	ALDH5A1
+Serum alpha1-antitrypsin levels	9	ALDH2
+Serum metabolite levels	8	ALDH1L1
+Serum metabolite levels	4	ALDH3B2
+Serum metabolite levels (CMS)	8	ALDH1L1
+Serum metabolite ratios in chronic kidney disease	1	ALDH16A1
+Serum total protein level	3	ALDH16A1
+Serum uric acid levels	7	ALDH2
+Sex hormone-binding globulin levels	3	ALDH2
+Sex hormone-binding globulin levels	1	ALDH5A1
+Sex hormone-binding globulin levels adjusted for BMI	1	ALDH16A1
+Sex hormone-binding globulin levels adjusted for BMI	3	ALDH2
+Sex hormone-binding globulin levels adjusted for BMI	8	ALDH5A1
+Small vessel stroke (CCSp classification)	6	ALDH2
+Smoking cessation (MTAG)	1	ALDH2
+Smoking initiation (ever regular vs never regular)	10	ALDH2
+Smoking initiation (ever regular vs never regular) (MTAG)	2	ALDH5A1
+Smoking status	1	ALDH2
+Smoking status (ever vs never smokers)	20	ALDH2
+Spherical equivalent	6	ALDH2
+Spherical equivalent or myopia (age of diagnosis)	8	ALDH2
+Sphingolipid levels	4	ALDH16A1
+Sphingomyelin levels	2	ALDH16A1
+Stroke	22	ALDH2
+Subcortical volume (min-P)	2	ALDH6A1
+Subcortical volume (MOSTest)	1	ALDH2
+Subjective well-being (MTAG)	10	ALDH2
+Sum basophil neutrophil counts	15	ALDH2
+Sum eosinophil basophil counts	9	ALDH2
+Sum neutrophil eosinophil counts	15	ALDH2
+Systemic lupus erythematosus	29	ALDH2
+Systemic seropositive rheumatic diseases (Systemic sclerosis or systemic lupus erythematosus or rheumatoid arthritis or idiopathic inflammatory myopathies)	8	ALDH2
+Systolic blood pressure	111	ALDH2
+Systolic blood pressure	1	ALDH7A1
+Systolic blood pressure (cigarette smoking interaction)	11	ALDH2
+Systolic blood pressure x alcohol consumption (light vs heavy) interaction (2df test)	1	ALDH18A1
+Systolic blood pressure x alcohol consumption (light vs heavy) interaction (2df test)	11	ALDH2
+Systolic blood pressure x alcohol consumption interaction (2df test)	84	ALDH2
+Systolic blood pressure x smoking status (current vs non-current) interaction (2df test)	33	ALDH2
+Systolic blood pressure x smoking status (ever vs never) interaction (2df test)	33	ALDH2
+Tetralogy of Fallot	6	ALDH2
+Thyroid peroxidase antibody positivity	9	ALDH2
+Thyroid stimulating hormone levels	11	ALDH2
+Tonsillectomy	49	ALDH2
+Total cholesterol levels	3	ALDH16A1
+Total cholesterol levels	90	ALDH2
+Total testosterone levels	1	ALDH16A1
+Total testosterone levels	1	ALDH2
+Triglyceride levels	2	ALDH16A1
+Triglyceride levels	4	ALDH18A1
+Triglyceride levels	1	ALDH2
+Triglyceride levels	1	ALDH5A1
+Triglycerides	1	ALDH2
+Tumor necrosis factor levels	12	ALDH2
+Tumor necrosis factor receptor 2 levels	10	ALDH2
+Type 1 diabetes	87	ALDH2
+Type 1 diabetes and autoimmune thyroid diseases	1	ALDH5A1
+Type 2 diabetes	2	ALDH16A1
+Type 2 diabetes	15	ALDH2
+Type 2 diabetes	3	ALDH5A1
+Type 2 diabetes (adjusted for BMI)	9	ALDH2
+Urate levels	61	ALDH2
+Vigorous physical activity	1	ALDH7A1
+Vitiligo	25	ALDH2
+Waist circumference adjusted for body mass index	23	ALDH2
+Waist circumference adjusted for body mass index	1	ALDH3A2
+Waist circumference adjusted for body mass index	3	ALDH6A1
+Waist-hip ratio	10	ALDH2
+Waist-hip ratio	3	ALDH7A1
+Waist-to-hip ratio adjusted for BMI	2	ALDH3B1
+Well-being spectrum (multivariate analysis)	1	ALDH18A1
+Well-being spectrum (multivariate analysis)	5	ALDH5A1
+White blood cell count	5	ALDH16A1
+White blood cell count	6	ALDH18A1
+White blood cell count	71	ALDH2
+White blood cell count (basophil)	6	ALDH2
+White matter microstructure (axial diusivities)	2	ALDH6A1
+White matter microstructure (mode of anisotropy)	11	ALDH2
