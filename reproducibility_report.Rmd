@@ -996,6 +996,3 @@ To plot *ALDH2* eQTLs in frontal cortex:
 
 To plot *ALDH2* eQTLs in amygdala:
 `pyGenomeTracks --tracks aldh2_eqtl_am_gtf.ini --region 5:127700000-128050000 --trackLabelFraction 0.2 --width 25 --dpi 300 -o ALDH2_eQTL_Am.png`
-
-
-
