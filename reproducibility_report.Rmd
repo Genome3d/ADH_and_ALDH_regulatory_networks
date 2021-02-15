@@ -12,8 +12,6 @@ knitr::opts_chunk$set(echo = TRUE)
 # load libraries
 pacman::p_load(ggplot2, ComplexHeatmap, dplyr, tidyr, reshape2, tidyverse, circlize, LDlinkR, UpSetR,
                RIdeogram)
-
-setwd("/Users/foffa/Desktop/ADH_and_ALDH_regulatory_networks")
 ```
 
 ## Reporducibility report for "*ADH* and *ALDH* gene regulation" study.
@@ -108,7 +106,7 @@ ALDH7A1_tissues <- unique(ALDH7A1$tissue)
 
 ### 2. *ADH* and *ALDH* gene expression across GTEx tissues.
 
-```{r gtex_gene_expression, fig.width=12, fig.height=10}
+```{r gtex_gene_expression, fig.width=12, fig.height=11}
 # getting gene expression for all genes across all gtex tissues
 gtex <- gzfile("data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_median_tpm.gct.gz",'rt')  
 gtex_expr <- read.table(gtex, skip = 2, sep = "\t", header = TRUE)
@@ -122,7 +120,7 @@ adh_aldh_expr <- gtex_expr[gtex_expr$Description %in% adh_aldh_genes, ]
 colnames(adh_aldh_expr) <- sub("[.]$", "", colnames(adh_aldh_expr)) # remove dot in the end
 colnames(adh_aldh_expr) <- gsub("\\.{1,}", "_", colnames(adh_aldh_expr)) # replace any dot with underscore
 
-# Heatmap of log10(TPM + 1) gene expression across 49 GTEx tissues
+# Heatmap of log10(TPM + 1) gene expression across 54 GTEx tissues
 #adh_aldh_expr_melt <- melt(adh_aldh_expr, id="Description", measure.vars = colnames(adh_aldh_expr[3:56])); colnames(adh_aldh_expr_melt) <- c("name", "tissue", "tpm")
 #adh_aldh_expr_melt$log10tpm <- log10(adh_aldh_expr_melt$tpm + 1) # transform to log10(TPM + 1)
 
@@ -149,7 +147,7 @@ draw(ht_ge, heatmap_legend_side = "bottom")
 
 ### 3. *ADH* and *ALDH* gene regulation across GTEx tissues.
 
-```{r gene_regulation, fig.width=12, fig.height=10}
+```{r gene_regulation, fig.width=12, fig.height=11}
 # This function checks up- and downregulation of ADH and ALDH genes in GTEx tissues. It takes codes3d input as a dataframe and returns if the gene is not expressed, up-, down-, or up/downregulated
 all_t <- rownames(t(adh_aldh_mat))
 up_down <- function(x){
@@ -176,7 +174,7 @@ up_down <- function(x){
 
 # create a dataframe and populate it with up- and downregulation values
 df <- data.frame(ADH1A = up_down(ADH1A), ADH1B = up_down(ADH1B), ADH1C = up_down(ADH1C),
-                 ADH4 = up_down(ADH4), ADH5 = up_down(ADH5), ADH6= up_down(ADH6),
+                 ADH4 = up_down(ADH4), ADH5 = up_down(ADH5), ADH6 = up_down(ADH6),
                  ALDH16A1 = up_down(ALDH16A1), ALDH18A1 = up_down(ALDH18A1),
                  ALDH1A1 = up_down(ALDH1A1), ALDH1A2 = up_down(ALDH1A2),
                  ALDH1A3 = up_down(ALDH1A3), ALDH1B1 = up_down(ALDH1B1),
@@ -189,13 +187,17 @@ df <- data.frame(ADH1A = up_down(ADH1A), ADH1B = up_down(ADH1B), ADH1C = up_down
 
 discrete_mat <- as.matrix(df)
 colors = structure(c("#ED1C24", "#1C75BC", "black"), names = c("up", "down", "both"))
+adh_aldh_egenes <- c("ADH1A", "ADH1B", "ADH1C", "ADH4", "ADH5", "ADH6", "ALDH16A1", "ALDH18A1",
+                     "ALDH1A1", "ALDH1A2", "ALDH1A3", "ALDH1B1", "ALDH1L1", "ALDH1L2", "ALDH2",
+                     "ALDH3A1", "ALDH3A2", "ALDH3B1", "ALDH3B2", "ALDH4A1", "ALDH5A1", "ALDH6A1",
+                     "ALDH7A1")
 
 #pdf("figures/adh_aldh_gene_regulation_heatmap.pdf", width = 16, height = 16)
 ht_gr <- Heatmap(discrete_mat, name = "regulation",
                  col = colors, na_col = "white",
                  cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
                  column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
-                 column_order = adh_aldh_genes,
+                 column_order = adh_aldh_egenes,
                  width = unit(14, "cm"), height = unit(22, "cm"),
                  border = TRUE, rect_gp = gpar(col = "grey"),
                  heatmap_legend_param = list(legend_direction = "horizontal",
@@ -209,7 +211,7 @@ draw(ht_gr, heatmap_legend_side = "bottom")
 To determine if *ADH* and *ALDH* gene eQTLs are associated with GWAS traits we used LDtraitR package. Register [here](https://ldlink.nci.nih.gov/?tab=apiaccess) to access LDtrait API with R. You'll get your own token. In the function below specify your own token. This analysis was done on 05/02/2021. GWAS Catalog last updated on 05/02/2021, 07:05 PM (GMT+1300).
 
 ```{r LDtrait}
-# This function queriies LDtrait. It takes a vector of eQTLs, splits the vector into list of vectors of length 50 (or less) and sends a request for each of these vectors. It outputs the dataframe with the query results for all eQTLs.
+# This function queriies LDtrait. It takes a vector of eQTLs, splits the vector into list of vectors of length 50 (or less) and sends a request for each of these vectors. It outputs the dataframe with the query results for all eQTLs. Uncomment the lines to query LDtrait.
 query_LDtrait <- function(esnps){
     df <- data.frame()
     max <- 50
@@ -222,7 +224,7 @@ query_LDtrait <- function(esnps){
         tryCatch({
             snps <- unlist(esnps_splits[i], use.names=FALSE)
             t <- LDtrait(snps = snps, pop = "CEU", r2d = "r2", r2d_threshold = "0.8", 
-                     win_size = "500000", token = "5108b14fedb3")
+                     win_size = "500000", token = "your_token_here")
             df <- rbind(df, t)
         }, error=function(e){
             cat("ERROR: ", conditionMessage(e), "\n")
@@ -234,149 +236,172 @@ query_LDtrait <- function(esnps){
 }
 
 ## 6 ADH genes
-ADH1A_df <- query_LDtrait(ADH1A_esnps) # all associations
-ADH1A_df$P_value <- as.numeric(ADH1A_df$P_value)
+#ADH1A_df <- query_LDtrait(ADH1A_esnps) # all associations
+#ADH1A_df$P_value <- as.numeric(ADH1A_df$P_value)
 #write.table(ADH1A_df, file = "results/LD/ADH1A_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ADH1A_df <- read.table(file = "results/LD/ADH1A_LDtraits.txt", sep = "\t", header = TRUE)
 ADH1A_df_gw <- subset(ADH1A_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ADH1A_df_gw, file = "results/LD/ADH1A_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ADH1B_df <- query_LDtrait(ADH1B_esnps) # all associations
-ADH1B_df$P_value <- as.numeric(ADH1B_df$P_value)
+#ADH1B_df <- query_LDtrait(ADH1B_esnps) # all associations
+#ADH1B_df$P_value <- as.numeric(ADH1B_df$P_value)
 #write.table(ADH1B_df, file = "results/LD/ADH1B_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ADH1B_df <- read.table(file = "results/LD/ADH1B_LDtraits.txt", sep = "\t", header = TRUE)
 ADH1B_df_gw <- subset(ADH1B_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ADH1B_df_gw, file = "results/LD/ADH1B_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ADH1C_df <- query_LDtrait(ADH1C_esnps) # all associations
-ADH1C_df$P_value <- as.numeric(ADH1C_df$P_value)
+#ADH1C_df <- query_LDtrait(ADH1C_esnps) # all associations
+#ADH1C_df$P_value <- as.numeric(ADH1C_df$P_value)
 #write.table(ADH1C_df, file = "results/LD/ADH1C_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ADH1C_df <- read.table(file = "results/LD/ADH1C_LDtraits.txt", sep = "\t", header = TRUE)
 ADH1C_df_gw <- subset(ADH1C_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ADH1C_df_gw, file = "results/LD/ADH1C_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ADH4_df <- query_LDtrait(ADH4_esnps) # all associations
-ADH4_df$P_value <- as.numeric(ADH4_df$P_value)
+#ADH4_df <- query_LDtrait(ADH4_esnps) # all associations
+#ADH4_df$P_value <- as.numeric(ADH4_df$P_value)
 #write.table(ADH4_df, file = "results/LD/ADH4_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ADH4_df <- read.table(file = "results/LD/ADH4_LDtraits.txt", sep = "\t", header = TRUE)
 ADH4_df_gw <- subset(ADH4_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ADH4_df_gw, file = "results/LD/ADH4_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ADH5_df <- query_LDtrait(ADH5_esnps) # all associations
-ADH5_df$P_value <- as.numeric(ADH5_df$P_value)
+#ADH5_df <- query_LDtrait(ADH5_esnps) # all associations
+#ADH5_df$P_value <- as.numeric(ADH5_df$P_value)
 #write.table(ADH5_df, file = "results/LD/ADH5_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ADH5_df <- read.table(file = "results/LD/ADH5_LDtraits.txt", sep = "\t", header = TRUE)
 ADH5_df_gw <- subset(ADH5_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ADH5_df_gw, file = "results/LD/ADH5_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ADH6_df <- query_LDtrait(ADH6_esnps) # all associations
-ADH6_df$P_value <- as.numeric(ADH6_df$P_value)
+#ADH6_df <- query_LDtrait(ADH6_esnps) # all associations
+#ADH6_df$P_value <- as.numeric(ADH6_df$P_value)
 #write.table(ADH6_df, file = "results/LD/ADH6_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ADH6_df <- read.table(file = "results/LD/ADH6_LDtraits.txt", sep = "\t", header = TRUE)
 ADH6_df_gw <- subset(ADH6_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ADH6_df_gw, file = "results/LD/ADH6_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
 ## 17 ALDH genes
-ALDH16A1_df <- query_LDtrait(ALDH16A1_esnps) # all associations
-ALDH16A1_df$P_value <- as.numeric(ALDH16A1_df$P_value)
+#ALDH16A1_df <- query_LDtrait(ALDH16A1_esnps) # all associations
+#ALDH16A1_df$P_value <- as.numeric(ALDH16A1_df$P_value)
 #write.table(ALDH16A1_df, file = "results/LD/ALDH16A1_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH16A1_df <- read.table(file = "results/LD/ALDH16A1_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH16A1_df_gw <- subset(ALDH16A1_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH16A1_df_gw, file = "results/LD/ALDH16A1_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH18A1_df <- query_LDtrait(ALDH18A1_esnps) # all associations
-ALDH18A1_df$P_value <- as.numeric(ALDH18A1_df$P_value)
+#ALDH18A1_df <- query_LDtrait(ALDH18A1_esnps) # all associations
+#ALDH18A1_df$P_value <- as.numeric(ALDH18A1_df$P_value)
 #write.table(ALDH18A1_df, file = "results/LD/ALDH18A1_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH18A1_df <- read.table(file = "results/LD/ALDH18A1_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH18A1_df_gw <- subset(ALDH18A1_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH18A1_df_gw, file = "results/LD/ALDH18A1_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH1A1_df <- query_LDtrait(ALDH1A1_esnps) # all associations
-ALDH1A1_df$P_value <- as.numeric(ALDH1A1_df$P_value)
+#ALDH1A1_df <- query_LDtrait(ALDH1A1_esnps) # all associations
+#ALDH1A1_df$P_value <- as.numeric(ALDH1A1_df$P_value)
 #write.table(ALDH1A1_df, file = "results/LD/ALDH1A1_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH1A1_df <- read.table(file = "results/LD/ALDH1A1_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH1A1_df_gw <- subset(ALDH1A1_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH1A1_df_gw, file = "results/LD/ALDH1A1_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH1A2_df <- query_LDtrait(ALDH1A2_esnps) # all associations
-ALDH1A2_df$P_value <- as.numeric(ALDH1A2_df$P_value)
+#ALDH1A2_df <- query_LDtrait(ALDH1A2_esnps) # all associations
+#ALDH1A2_df$P_value <- as.numeric(ALDH1A2_df$P_value)
 #write.table(ALDH1A2_df, file = "results/LD/ALDH1A2_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH1A2_df <- read.table(file = "results/LD/ALDH1A2_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH1A2_df_gw <- subset(ALDH1A2_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH1A2_df_gw, file = "results/LD/ALDH1A2_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH1A3_df <- query_LDtrait(ALDH1A3_esnps) # all associations
-ALDH1A3_df$P_value <- as.numeric(ALDH1A3_df$P_value)
+#ALDH1A3_df <- query_LDtrait(ALDH1A3_esnps) # all associations
+#ALDH1A3_df$P_value <- as.numeric(ALDH1A3_df$P_value)
 #write.table(ALDH1A3_df, file = "results/LD/ALDH1A3_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH1A3_df <- read.table(file = "results/LD/ALDH1A3_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH1A3_df_gw <- subset(ALDH1A3_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH1A3_df_gw, file = "results/LD/ALDH1A3_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH1B1_df <- query_LDtrait(ALDH1B1_esnps) # all associations
-ALDH1B1_df$P_value <- as.numeric(ALDH1B1_df$P_value)
+#ALDH1B1_df <- query_LDtrait(ALDH1B1_esnps) # all associations
+#ALDH1B1_df$P_value <- as.numeric(ALDH1B1_df$P_value)
 #write.table(ALDH1B1_df, file = "results/LD/ALDH1B1_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH1B1_df <- read.table(file = "results/LD/ALDH1B1_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH1B1_df_gw <- subset(ALDH1B1_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH1B1_df_gw, file = "results/LD/ALDH1B1_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH1L1_df <- query_LDtrait(ALDH1L1_esnps) # all associations
-ALDH1L1_df$P_value <- as.numeric(ALDH1L1_df$P_value)
+#ALDH1L1_df <- query_LDtrait(ALDH1L1_esnps) # all associations
+#ALDH1L1_df$P_value <- as.numeric(ALDH1L1_df$P_value)
 #write.table(ALDH1L1_df, file = "results/LD/ALDH1L1_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH1L1_df <- read.table(file = "results/LD/ALDH1L1_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH1L1_df_gw <- subset(ALDH1L1_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH1L1_df_gw, file = "results/LD/ALDH1L1_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH1L2_df <- query_LDtrait(ALDH1L2_esnps) # all associations
-ALDH1L2_df$P_value <- as.numeric(ALDH1L2_df$P_value)
+#ALDH1L2_df <- query_LDtrait(ALDH1L2_esnps) # all associations
+#ALDH1L2_df$P_value <- as.numeric(ALDH1L2_df$P_value)
 #write.table(ALDH1L2_df, file = "results/LD/ALDH1L2_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH1L2_df <- read.table(file = "results/LD/ALDH1L2_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH1L2_df_gw <- subset(ALDH1L2_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH1L2_df_gw, file = "results/LD/ALDH1L2_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH2_df <- query_LDtrait(ALDH2_esnps) # all associations
-ALDH2_df$P_value <- as.numeric(ALDH2_df$P_value)
+#ALDH2_df <- query_LDtrait(ALDH2_esnps) # all associations
+#ALDH2_df$P_value <- as.numeric(ALDH2_df$P_value)
 #write.table(ALDH2_df, file = "results/LD/ALDH2_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH2_df <- read.table(file = "results/LD/ALDH2_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH2_df_gw <- subset(ALDH2_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH2_df_gw, file = "results/LD/ALDH2_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH3A1_df <- query_LDtrait(ALDH3A1_esnps) # all associations
-ALDH3A1_df$P_value <- as.numeric(ALDH3A1_df$P_value)
+#ALDH3A1_df <- query_LDtrait(ALDH3A1_esnps) # all associations
+#ALDH3A1_df$P_value <- as.numeric(ALDH3A1_df$P_value)
 #write.table(ALDH3A1_df, file = "results/LD/ALDH3A1_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH3A1_df <- read.table(file = "results/LD/ALDH3A1_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH3A1_df_gw <- subset(ALDH3A1_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH3A1_df_gw, file = "results/LD/ALDH3A1_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH3A2_df <- query_LDtrait(ALDH3A2_esnps) # all associations
-ALDH3A2_df$P_value <- as.numeric(ALDH3A2_df$P_value)
+#ALDH3A2_df <- query_LDtrait(ALDH3A2_esnps) # all associations
+#ALDH3A2_df$P_value <- as.numeric(ALDH3A2_df$P_value)
 #write.table(ALDH3A2_df, file = "results/LD/ALDH3A2_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH3A2_df <- read.table(file = "results/LD/ALDH3A2_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH3A2_df_gw <- subset(ALDH3A2_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH3A2_df_gw, file = "results/LD/ALDH3A2_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH3B1_df <- query_LDtrait(ALDH3B1_esnps) # all associations
-ALDH3B1_df$P_value <- as.numeric(ALDH3B1_df$P_value)
+#ALDH3B1_df <- query_LDtrait(ALDH3B1_esnps) # all associations
+#ALDH3B1_df$P_value <- as.numeric(ALDH3B1_df$P_value)
 #write.table(ALDH3B1_df, file = "results/LD/ALDH3B1_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH3B1_df <- read.table(file = "results/LD/ALDH3B1_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH3B1_df_gw <- subset(ALDH3B1_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH3B1_df_gw, file = "results/LD/ALDH3B1_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH3B2_df <- query_LDtrait(ALDH3B2_esnps) # all associations
-ALDH3B2_df$P_value <- as.numeric(ALDH3B2_df$P_value)
+#ALDH3B2_df <- query_LDtrait(ALDH3B2_esnps) # all associations
+#ALDH3B2_df$P_value <- as.numeric(ALDH3B2_df$P_value)
 #write.table(ALDH3B2_df, file = "results/LD/ALDH3B2_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH3B2_df <- read.table(file = "results/LD/ALDH3B2_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH3B2_df_gw <- subset(ALDH3B2_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH3B2_df_gw, file = "results/LD/ALDH3B2_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH4A1_df <- query_LDtrait(ALDH4A1_esnps) # all associations
-ALDH4A1_df$P_value <- as.numeric(ALDH4A1_df$P_value)
+#ALDH4A1_df <- query_LDtrait(ALDH4A1_esnps) # all associations
+#ALDH4A1_df$P_value <- as.numeric(ALDH4A1_df$P_value)
 #write.table(ALDH4A1_df, file = "results/LD/ALDH4A1_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH4A1_df <- read.table(file = "results/LD/ALDH4A1_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH4A1_df_gw <- subset(ALDH4A1_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH4A1_df_gw, file = "results/LD/ALDH4A1_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH5A1_df <- query_LDtrait(ALDH5A1_esnps) # all associations
-ALDH5A1_df$P_value <- as.numeric(ALDH5A1_df$P_value)
+#ALDH5A1_df <- query_LDtrait(ALDH5A1_esnps) # all associations
+#ALDH5A1_df$P_value <- as.numeric(ALDH5A1_df$P_value)
 #write.table(ALDH5A1_df, file = "results/LD/ALDH5A1_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH5A1_df <- read.table(file = "results/LD/ALDH5A1_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH5A1_df_gw <- subset(ALDH5A1_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH5A1_df_gw, file = "results/LD/ALDH5A1_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH6A1_df <- query_LDtrait(ALDH6A1_esnps) # all associations
-ALDH6A1_df$P_value <- as.numeric(ALDH6A1_df$P_value)
+#ALDH6A1_df <- query_LDtrait(ALDH6A1_esnps) # all associations
+#ALDH6A1_df$P_value <- as.numeric(ALDH6A1_df$P_value)
 #write.table(ALDH6A1_df, file = "results/LD/ALDH6A1_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH6A1_df <- read.table(file = "results/LD/ALDH6A1_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH6A1_df_gw <- subset(ALDH6A1_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH6A1_df_gw, file = "results/LD/ALDH6A1_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 
-ALDH7A1_df <- query_LDtrait(ALDH7A1_esnps) # all associations
-ALDH7A1_df$P_value <- as.numeric(ALDH7A1_df$P_value)
+#ALDH7A1_df <- query_LDtrait(ALDH7A1_esnps) # all associations
+#ALDH7A1_df$P_value <- as.numeric(ALDH7A1_df$P_value)
 #write.table(ALDH7A1_df, file = "results/LD/ALDH7A1_LDtraits.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
+ALDH7A1_df <- read.table(file = "results/LD/ALDH7A1_LDtraits.txt", sep = "\t", header = TRUE)
 ALDH7A1_df_gw <- subset(ALDH7A1_df, P_value < 0.00000005) # only genome-wide significant associations
 #write.table(ALDH7A1_df_gw, file = "results/LD/ALDH7A1_LDtraits_5E-08.txt", sep = "\t", col.names = TRUE, row.names=FALSE)
 ```
 
 Here, we plot percentage of all and genome-wide significant associations of *ADH* and *ALDH* eQTLs with GWAS traits.
 
-```{r eQTL-trait_associations}
+```{r eQTL-trait_associations, fig.width=12, fig.height=10}
 # to get number of ADH1A eQTLs associated with traits: length(unique(ADH1A_df$Query))
 # to get number of ADH1A eQTLs: length(unique(ADH1A_esnps))
 # 6 ADH genes
@@ -636,7 +661,7 @@ ALDH_traits_df <- rbind(ALDH_traits_df, ALDH7A1_melt)
 
 Get the number of overlapping *ADH* and *ALDH* eQTLs.
 
-```{r eQTL_overlaps}
+```{r eQTL_overlaps, fig.width=12, fig.height=10}
 # 6 ADH genes
 # overlapps between ADH eQTLs having trait associateions
 ADH1A_gw_esnps <- unique(ADH1A_df_gw$Query)
@@ -765,7 +790,7 @@ upset(fromList(list_nogw_esnps), sets = c("ALDH7A1", "ALDH6A1", "ALDH5A1", "ALDH
 
 Plot *ADH* eQTLs associations with alcohol dependence across different tissues.
 
-```{r AD_AUD_and_AC_eQTLs_associations}
+```{r AD_eQTLs_associations, fig.width=12, fig.height=10}
 # Alcohol dependence: ADH1A, ADH1C, ADH4, ADH5
 ADH1A_AD <- ADH1A_df_gw[ADH1A_df_gw$GWAS_Trait=="Alcohol dependence", ]
 ADH1A_AD_esnps <- unique(ADH1A_AD$Query) # 27
@@ -800,21 +825,11 @@ ad_gr <- Heatmap(ADH_AD_mat, name = "regulation",
                                              legend_width = unit(5, "cm")))
 draw(ad_gr, heatmap_legend_side = "bottom")
 #dev.off()
-
-jpeg("figures/test.jpeg", width = 10, height = 16)
-Heatmap(ADH_AD_mat, name = "regulation",
-                 col = colors, na_col = "white",
-                 cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
-                 column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
-                 column_order = c("ADH1A", "ADH1B", "ADH1C", "ADH4", "ADH5", "ADH6"),
-                 width = unit(5, "cm"), height = unit(22, "cm"),
-                 border = TRUE, rect_gp = gpar(col = "grey"))
-dev.off()
 ```
 
 Plot *ALDH* eQTLs associations with psychiatric disorders and cognition across different tissues.
 
-```{r ALDH_eQTLs_associations_psycho}
+```{r ALDH_eQTLs_associations_psycho, fig.width=12, fig.height=10}
 # ALDH2 - anxiety/tension, bipolar disorder, depression, schizophrenia, cognition
 # Anxiety/tension
 ALDH2_anx <- ALDH2_df_gw[ALDH2_df_gw$GWAS_Trait=="Anxiety/tension (special factor of neuroticism)", ]
@@ -827,7 +842,7 @@ anx_gr <- Heatmap(ALDH_anx_mat, name = "regulation",
                   col = colors, na_col = "white",
                   cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
                   column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
-                  column_order = c("ALDH2"), show_row_names = FALSE,
+                  column_order = c("ALDH2"), #show_row_names = FALSE,
                   width = unit(1, "cm"), height = unit(22, "cm"),
                   border = TRUE, rect_gp = gpar(col = "grey"),
                   heatmap_legend_param = list(legend_direction = "horizontal",
@@ -846,7 +861,7 @@ bd_gr <- Heatmap(ALDH_bd_mat, name = "regulation",
                  col = colors, na_col = "white",
                  cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
                  column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
-                 column_order = c("ALDH2"), show_row_names = FALSE,
+                 column_order = c("ALDH2"), #show_row_names = FALSE,
                  width = unit(1, "cm"), height = unit(22, "cm"),
                  border = TRUE, rect_gp = gpar(col = "grey"),
                  heatmap_legend_param = list(legend_direction = "horizontal",
@@ -865,7 +880,7 @@ de_gr <- Heatmap(ALDH_de_mat, name = "regulation",
                  col = colors, na_col = "white",
                  cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
                  column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
-                 column_order = c("ALDH2"), show_row_names = FALSE,
+                 column_order = c("ALDH2"), #show_row_names = FALSE,
                  width = unit(1, "cm"), height = unit(22, "cm"),
                  border = TRUE, rect_gp = gpar(col = "grey"),
                  heatmap_legend_param = list(legend_direction = "horizontal",
@@ -884,7 +899,7 @@ sc_gr <- Heatmap(ALDH_sc_mat, name = "regulation",
                  col = colors, na_col = "white",
                  cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
                  column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
-                 column_order = c("ALDH2"), show_row_names = FALSE,
+                 column_order = c("ALDH2"), #show_row_names = FALSE,
                  width = unit(1, "cm"), height = unit(22, "cm"),
                  border = TRUE, rect_gp = gpar(col = "grey"),
                  heatmap_legend_param = list(legend_direction = "horizontal",
@@ -903,7 +918,7 @@ co_gr <- Heatmap(ALDH_co_mat, name = "regulation",
                  col = colors, na_col = "white",
                  cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
                  column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
-                 column_order = c("ALDH2"), show_row_names = FALSE,
+                 column_order = c("ALDH2"), #show_row_names = FALSE,
                  width = unit(1, "cm"), height = unit(22, "cm"),
                  border = TRUE, rect_gp = gpar(col = "grey"),
                  heatmap_legend_param = list(legend_direction = "horizontal",
@@ -923,7 +938,7 @@ asd_gr <- Heatmap(ALDH3A2_asd_mat, name = "regulation",
                   col = colors, na_col = "white",
                   cluster_rows = FALSE, cluster_columns = FALSE, row_names_side = "left",
                   column_names_side = "top", column_names_gp = gpar(fontface = "italic"),
-                  column_order = c("ALDH3A2"), show_row_names = FALSE,
+                  column_order = c("ALDH3A2"), #show_row_names = FALSE,
                   width = unit(1, "cm"), height = unit(22, "cm"),
                   border = TRUE, rect_gp = gpar(col = "grey"),
                   heatmap_legend_param = list(legend_direction = "horizontal",
@@ -971,12 +986,10 @@ data(human_karyotype, package="RIdeogram")
 data(gene_density, package="RIdeogram")
 
 genes_ann <- read.table("data/ADH_and_ALDH_genes.txt", sep = "\t", header = T, stringsAsFactors = F)
-#ad_esnps <- readLines("hapter_4/AD_eqtl_snps.txt")
-#eqtls <- subset(ad_ann, ad_ann$SNP %in% ad_esnps)
 
 # in your terminal: ulimit -s; ulimit -s 16384; R --slave -e 'Cstack_info()["size"]'
-ideogram(karyotype = human_karyotype, overlaid = gene_density, label = genes_ann, label_type = "marker", colorset1 = c("white", "#D0D0D0", "black"))
-convertSVG("chromosome.svg", device = "png")
+#ideogram(karyotype = human_karyotype, overlaid = gene_density, label = genes_ann, label_type = "marker", colorset1 = c("white", "#D0D0D0", "black"))
+#convertSVG("chromosome.svg", device = "png")
 ```
 
 To get rsIDs for ALDH2 eQTLs associated with BD, SCZ and Cognition in frontal cortex and amygdala, we saved the SNPs into the txt files:
@@ -985,7 +998,7 @@ To get rsIDs for ALDH2 eQTLs associated with BD, SCZ and Cognition in frontal co
 
 To get genomic positions for GWAS SNPs according to genome GRCh38p7 build 151, we downloaded dbSNP bed files for each chromosome from [dbSNP ftp site](ftp://ftp.ncbi.nih.gov/snp/organisms/human_9606_b151_GRCh38p7/BED/), concatenated them and run `bash scripts/rsID2Bed.sh results/ALDH2_eQTLs/ALDH2_eQTLs_FC_BD-SCZ-Cognition.txt` and `bash scripts/rsID2Bed.sh results/ALDH2_eQTLs/ALDH2_eQTLs_Am_SCZ.txt` to convert SNP rsIDs to BED files.
 
-Figure 3.14 is made using [pygenometracks](https://github.com/deeptools/pyGenomeTracks):
+The figure on brain-specific regulatory interactions associated with bipolar disorder, schizophrenia and cognition is made using [pygenometracks](https://github.com/deeptools/pyGenomeTracks):
 `conda activate pygenometracks`
 
 To plot the *ALDH2* gene:
