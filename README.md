@@ -1,6 +1,6 @@
 # *ADH* and *ALDH* gene regulation
 
-This repository contains scripts, data, results, figures and reproducibility report for "*ADH* and *ALDH* gene regulation" study.
+This repository contains scripts, data, results, figures and reproducibility report for "*ADH* and *ALDH* gene regulation" study. In this study, we identified all eQTL SNPs that are involved in *ADH* and *ALDH* gene regulation and explored whether they are associated with alcohol dependence, psychiatric disorders and cognition.  
 
 Python (version 3.6.9), R (version 4.0.2) and RStudio (version 1.2.5033) were used for data processing, analysis and visualisation. 
 

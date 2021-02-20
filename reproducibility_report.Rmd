@@ -16,7 +16,7 @@ pacman::p_load(ggplot2, ComplexHeatmap, dplyr, tidyr, reshape2, tidyverse, circl
 
 ## Reporducibility report for "*ADH* and *ALDH* gene regulation" study.
 
-This R Markdown document generates the reproducibility report for "*ADH* and *ALDH* gene regulation" study. 
+This is a reproducibility report for "*ADH* and *ALDH* gene regulation" study. 
 
 ### 1. CoDeS3D analysis
 
